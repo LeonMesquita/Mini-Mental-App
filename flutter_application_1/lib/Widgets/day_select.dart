@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Widgets/constantes.dart';
 
 String day_of_month = '';
 double daySize = .5;
@@ -21,7 +22,7 @@ class _DaySelectState extends State<DaySelect> {
     var size = MediaQuery.of(context).size;
     var screenHeight = (size.height - appbar.preferredSize.height) -
         MediaQuery.of(context).padding.top;
-    var boxHeight = screenHeight * daySize;
+    var boxHeight = screenHeight * .55;
     List<Widget> listaDeDias = [
       botao(buttonText: '1'),
       botao(buttonText: '2'),
@@ -56,14 +57,20 @@ class _DaySelectState extends State<DaySelect> {
       botao(buttonText: '31'),
     ];
 
-    return Scaffold(
-      body: Center(
+    return Center(
+      child: Container(
+        height: boxHeight,
+        width: size.width * .9,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Wrap(
               spacing: boxHeight * .04,
-              runSpacing: boxHeight * .04,
+              runSpacing: boxHeight * .05,
               children: listaDeDias,
             ),
             //
@@ -90,30 +97,27 @@ class _DaySelectState extends State<DaySelect> {
         MediaQuery.of(context).padding.top;
     var boxHeight = screenHeight * daySize;
     var buttonSize = boxHeight * .113;
-    var textSize = buttonSize * .48;
+    var textSize = buttonSize * .65;
     var boxWidth = size.width * dayWidth;
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black,
-            width: 1,
-          ),
-          shape: BoxShape.circle),
-      height: boxHeight * .113,
-      width: boxWidth * .113,
-      child: FloatingActionButton(
+        color: day_of_month == buttonText ? kCorAtiva : kPurpleColor,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      height: boxHeight * .12,
+      width: boxWidth * .14,
+      child: TextButton(
         onPressed: () {
           setState(() {
             day_of_month = buttonText;
           });
         },
-        backgroundColor:
-            day_of_month == buttonText ? Colors.blue.shade700 : Colors.white,
+        //backgroundColor: day_of_month == buttonText ? kCorAtiva : kPurpleColor,
         child: Text(
           buttonText,
           style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
               fontSize: textSize),
         ),
       ),

@@ -51,8 +51,8 @@ class Perguntas {
         categoriaEspecial: 'dia da semana',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Que dia da semana é hoje?',
-          textSize: .15,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: weekDay),
     PerguntasEscritas(
@@ -61,8 +61,8 @@ class Perguntas {
       enunciado: 'Que dia do mês é hoje?',
       questao: PerguntasResponsivas(
         textoDaPergunta: 'Que dia do mês é hoje?',
-        textSize: .15,
-        max_height: 40,
+        textSize: .18,
+        max_height: 50,
       ),
       respostaDaQuestao: DateTime.now().day.toString().toLowerCase(),
     ),
@@ -72,8 +72,8 @@ class Perguntas {
         enunciado: 'Em que mês estamos?',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Em que mês estamos?',
-          textSize: .15,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: mes),
     PerguntasEscritas(
@@ -82,8 +82,8 @@ class Perguntas {
       enunciado: 'Em que ano estamos?',
       questao: PerguntasResponsivas(
         textoDaPergunta: 'Em que ano estamos?',
-        textSize: .15,
-        max_height: 40,
+        textSize: .18,
+        max_height: 50,
       ),
       respostaDaQuestao: DateTime.now().year.toString(),
     ),
@@ -94,8 +94,8 @@ class Perguntas {
       questao: PerguntasResponsivas(
         textoDaPergunta:
             'Qual é a hora atual?\n (Tolerância à critério do examinador)',
-        textSize: .12,
-        max_height: 40,
+        textSize: .16,
+        max_height: 50,
       ),
       respostaDaQuestao: 'hora',
     ),
@@ -108,8 +108,8 @@ class Perguntas {
         categoriaEspecial: 'localidade',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Que lugar é este? (hospital, casa etc)',
-          textSize: .15,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: 'hospital'),
     PerguntasEscritas(
@@ -120,8 +120,8 @@ class Perguntas {
         questao: PerguntasResponsivas(
           textoDaPergunta:
               'Em que local específico estamos? (consultório, dormitório, sala etc)',
-          textSize: .12,
-          max_height: 35,
+          textSize: .15,
+          max_height: 50,
         ),
         respostaDaQuestao: 'consultório'),
 
@@ -130,8 +130,8 @@ class Perguntas {
         enunciado: 'Em que cidade estamos?',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Em que cidade estamos?',
-          textSize: .15,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: city),
     // santa clara county
@@ -140,8 +140,8 @@ class Perguntas {
         enunciado: 'Em que estado estamos?',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Em que estado estamos?',
-          textSize: .15,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: state),
     // california
@@ -152,8 +152,8 @@ class Perguntas {
         enunciado: 'Em que endereço estamos?',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Em que endereço estamos?',
-          textSize: .15,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: null),
     // united states
@@ -182,8 +182,8 @@ class Perguntas {
                     selectedWords[1] +
                     ', ' +
                     selectedWords[2],
-            textSize: .12,
-            max_height: 35,
+            textSize: .15,
+            max_height: 50,
           ),
         ],
       ),
@@ -230,7 +230,7 @@ class Perguntas {
           textoDaPergunta:
               'Tente lembrar das 3 palavras repetidas anteriormente e tente repetí-las mais uma vez.',
           textSize: .15,
-          max_height: 31,
+          max_height: 50,
         ),
         respostaDaQuestao: selectedWords),
 
@@ -247,8 +247,8 @@ class Perguntas {
           children: [
             PerguntasResponsivas(
               textoDaPergunta: 'Olhe para os objetos abaixo e tente nomeá-los:',
-              textSize: .10,
-              max_height: 27,
+              textSize: .15,
+              max_height: 50,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15),
@@ -257,13 +257,13 @@ class Perguntas {
                 children: [
                   gerarImagens(
                     imageName: obj1.imagePath,
-                    imageHeight: .40,
+                    imageHeight: .50,
                     imageWidth: .40,
                     avaliableArea: screenHeight,
                   ),
                   gerarImagens(
                     imageName: obj2.imagePath,
-                    imageHeight: .40,
+                    imageHeight: .50,
                     imageWidth: .40,
                     avaliableArea: screenHeight,
                   ),
@@ -281,8 +281,9 @@ class Perguntas {
             'Vou lhe dizer uma frase e depois que eu terminar, quero que o Sr(a) repita:\n“NEM AQUI, NEM ALI, NEM LÁ”',
         questao: PerguntasResponsivas(
           textoDaPergunta:
-              'Vou lhe dizer uma frase e depois que eu terminar, quero que o Sr(a) repita:\n“NEM AQUI, NEM ALI, NEM LÁ”',
-          textSize: .12,
+              'Vou lhe dizer uma frase e quero que o Sr(a) repita:\n“NEM AQUI, NEM ALI, NEM LÁ”',
+          textSize: .16,
+          max_height: 50,
         ),
         respostaDaQuestao: 'Frase do Paciente'),
 
@@ -294,8 +295,8 @@ class Perguntas {
         questao: PerguntasResponsivas(
           textoDaPergunta:
               'Pegue este papel com sua mão direita, dobre-o na metade com as duas mãos e coloque no chão.',
-          textSize: .11,
-          max_height: 35,
+          textSize: .15,
+          max_height: 50,
         ),
         respostaDaQuestao: '3 ações'), //'Realizar 3 comandos'
     PerguntasEscritas(
@@ -308,8 +309,8 @@ class Perguntas {
             PerguntasResponsivas(
               textoDaPergunta:
                   'Leia o comando abaixo e execute a ação que está escrita nele: \nFeche os olhos',
-              textSize: .12,
-              max_height: 35,
+              textSize: .15,
+              max_height: 50,
             ),
           ],
         ),
@@ -323,8 +324,8 @@ class Perguntas {
         questao: PerguntasResponsivas(
           textoDaPergunta:
               'O Sr(a) poderia escrever uma frase completa de sua escolha?',
-          textSize: .12,
-          max_height: 40,
+          textSize: .18,
+          max_height: 50,
         ),
         respostaDaQuestao: 'Frase do Paciente'),
 
@@ -336,7 +337,8 @@ class Perguntas {
           children: [
             PerguntasResponsivas(
               textoDaPergunta: 'O Sr(a) poderia copiar esse desenho?',
-              textSize: .11,
+              textSize: .18,
+              max_height: 50,
             ),
             SizedBox(height: 10),
             Center(

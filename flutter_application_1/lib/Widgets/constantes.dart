@@ -63,6 +63,8 @@ const kCorInativaGradient = LinearGradient(
   ],
 );
 
+const kCorAtiva = Color(0xFF35f23e);
+//6ff776  0ef71a
 const kCorInativa = Colors.white;
 //.........................................................
 var kSombraCor = Colors.grey;
@@ -160,5 +162,7 @@ const kCorLinguagem = LinearGradient(
 const kBackgroundImage = 'assets/imagens/design/Background.jpg';
 
 const kLogoImage = 'assets/imagens/design/logo.png';
+
+const kBack = 'assets/imagens/actions/home.png';
 
 const kPurpleColor = Color(0xFF5692ce6);

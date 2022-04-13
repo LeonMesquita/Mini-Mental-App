@@ -915,8 +915,9 @@ class _MEEMState extends State<MEEM> {
   @override
   Widget build(BuildContext context) {
     var appbarTest = NewGradientAppBar();
-    var appbar = NewGradientAppBar(
-      gradient: corDoExame,
+    var appbar = AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       title: Text(
         '${perguntas.obterCategoriaDaPergunta()}',
         style: TextStyle(
@@ -1006,6 +1007,8 @@ class _MEEMState extends State<MEEM> {
     var labelsize = screenHeight * .03;
     var cursorsize = screenHeight * .04;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+
       appBar: appbar,
       // resizeToAvoidBottomInset: false,
 
@@ -1025,108 +1028,119 @@ class _MEEMState extends State<MEEM> {
               maxWidth: MediaQuery.of(context).size.width),
           child
       */
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //
-            // Aqui é chamado o container onde ficam as perguntas
-            containerDasRespostas(
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //  SizedBox(
-                    //    height: size.height * .02,
-                    // ),
-                    //
-                    // A pergunta é chamada aqui
-                    perguntas.obterPerguntas() is String
+      body: Container(
+        height: size.height * 1,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(kBackgroundImage), fit: BoxFit.cover),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 120),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //
+                // Aqui é chamado o container onde ficam as perguntas
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Container(
+                    //color: Colors.red,
+                    height: screenHeight * .55,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //  SizedBox(
+                        //    height: size.height * .02,
+                        // ),
                         //
-                        // Aqui ele verifica se a pergunta é apenas uma string normal
-                        ? Text(
+                        // A pergunta é chamada aqui
+                        perguntas.obterPerguntas() is String
                             //
+                            // Aqui ele verifica se a pergunta é apenas uma string normal
+                            ? Text(
+                                //
+                                //
+                                // Se for, ele só retorna um texto na tela mesmo
+                                perguntas.obterPerguntas(),
+                                textAlign: TextAlign.center,
+                                style: kEstiloDasPerguntas,
+                              )
                             //
-                            // Se for, ele só retorna um texto na tela mesmo
-                            perguntas.obterPerguntas(),
-                            textAlign: TextAlign.center,
-                            style: kEstiloDasPerguntas,
+                            // Se a pergunta não for uma string, significa que é um widget
+                            // Nesse caso ele exibe o widget na tela
+                            : perguntas.obterPerguntas(),
+                      ],
+                    ),
+                  ),
+                ),
+                //SizedBox(height: 90),
+                //
+                // Aqui é verificado se a pergunta é do tipo memória imediata ou memória recente
+                // Ambas tem a mesma resposta
+
+                Container(
+                  // color: Colors.yellow.shade100,
+                  // height: screenHeight * .43,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: kMargemDosWidgets, right: kMargemDosWidgets),
+                    child: categoriaAtual == 'Memória Imediata' ||
+                            categoriaAtual == 'Memória Recente'
+                        ? Container(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                //
+                                // Caso seja verdadeiro, é retornado 3 TextFormFields
+                                // Um para cada palavra
+
+                                children: [
+                                  //SizedBox(height: screenHeight * .07),
+                                  respostaMeem(
+                                      label: 'Primeira palavra',
+                                      controlador: controladorDaBarraDeTexto,
+                                      altura:
+                                          screenHeight * alturaDaCaixaDeTexto,
+                                      labelSize: labelsize,
+                                      cursorSize: cursorsize,
+                                      validador: _primeiro_textfield_formkey,
+                                      isNumber: false),
+                                  SizedBox(height: screenHeight * .05),
+                                  respostaMeem(
+                                      label: 'Segunda palavra',
+                                      controlador: segundoControladorDeTexto,
+                                      altura:
+                                          screenHeight * alturaDaCaixaDeTexto,
+                                      labelSize: labelsize,
+                                      cursorSize: cursorsize,
+                                      validador: _segundo_textfield_formkey,
+                                      isNumber: false),
+                                  SizedBox(height: screenHeight * .05),
+                                  respostaMeem(
+                                      label: 'Terceira palavra',
+                                      controlador: terceiroControladorDeTexto,
+                                      altura:
+                                          screenHeight * alturaDaCaixaDeTexto,
+                                      labelSize: labelsize,
+                                      cursorSize: cursorsize,
+                                      validador: _terceiro_textfield_formkey,
+                                      isNumber: false),
+                                  SizedBox(height: screenHeight * .06),
+                                ],
+                              ),
+                            ),
                           )
                         //
-                        // Se a pergunta não for uma string, significa que é um widget
-                        // Nesse caso ele exibe o widget na tela
-                        : perguntas.obterPerguntas(),
-                  ],
-                ),
-              ),
-              screenHeight * .4,
-            ),
-            //SizedBox(height: 90),
-            //
-            // Aqui é verificado se a pergunta é do tipo memória imediata ou memória recente
-            // Ambas tem a mesma resposta
+                        // Caso não seja, ele vai para a próxima condição
 
-            Container(
-              // color: Colors.yellow.shade100,
-              // height: screenHeight * .43,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: kMargemDosWidgets, right: kMargemDosWidgets),
-                child: categoriaAtual == 'Memória Imediata' ||
-                        categoriaAtual == 'Memória Recente'
-                    ? Container(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                        : Container(
                             //
-                            // Caso seja verdadeiro, é retornado 3 TextFormFields
-                            // Um para cada palavra
-
-                            children: [
-                              SizedBox(height: screenHeight * .07),
-                              respostaMeem(
-                                  label: 'Primeira palavra',
-                                  controlador: controladorDaBarraDeTexto,
-                                  altura: screenHeight * alturaDaCaixaDeTexto,
-                                  labelSize: labelsize,
-                                  cursorSize: cursorsize,
-                                  validador: _primeiro_textfield_formkey,
-                                  isNumber: false),
-                              SizedBox(height: screenHeight * .05),
-                              respostaMeem(
-                                  label: 'Segunda palavra',
-                                  controlador: segundoControladorDeTexto,
-                                  altura: screenHeight * alturaDaCaixaDeTexto,
-                                  labelSize: labelsize,
-                                  cursorSize: cursorsize,
-                                  validador: _segundo_textfield_formkey,
-                                  isNumber: false),
-                              SizedBox(height: screenHeight * .05),
-                              respostaMeem(
-                                  label: 'Terceira palavra',
-                                  controlador: terceiroControladorDeTexto,
-                                  altura: screenHeight * alturaDaCaixaDeTexto,
-                                  labelSize: labelsize,
-                                  cursorSize: cursorsize,
-                                  validador: _terceiro_textfield_formkey,
-                                  isNumber: false),
-                              SizedBox(height: screenHeight * .06),
-                            ],
-                          ),
-                        ),
-                      )
-                    //
-                    // Caso não seja, ele vai para a próxima condição
-
-                    : Container(
-                        //
-                        // Aqui ele verifica se é a pergunta que pede para
-                        // o paciente olhar dois objetos e nomear eles
-                        child:
-                            resposta is List &&
+                            // Aqui ele verifica se é a pergunta que pede para
+                            // o paciente olhar dois objetos e nomear eles
+                            child: resposta is List &&
                                     categoriaAtual ==
                                         'Linguagem' //== ['caneta', 'relógio']
                                 ? Column(
@@ -1134,7 +1148,7 @@ class _MEEMState extends State<MEEM> {
                                     // Caso seja, ele retorna dois textformfields para armazenar as respostas
 
                                     children: [
-                                      SizedBox(height: screenHeight * .1),
+                                      //  SizedBox(height: screenHeight * .1),
                                       respostaMeem(
                                           label: 'Primeiro objeto',
                                           controlador:
@@ -1168,27 +1182,17 @@ class _MEEMState extends State<MEEM> {
                                     child: resposta == null
                                         ? Column(
                                             children: [
-                                              SizedBox(
-                                                  height: screenHeight * .07),
+                                              //  SizedBox(
+                                              //     height: screenHeight * .07),
+
                                               Container(
                                                 height: _maxValue(
                                                     value: screenHeight * .35,
-                                                    max: 235),
+                                                    max: 180),
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey,
-                                                      spreadRadius: 2,
-                                                      blurRadius: 8,
-                                                      offset: Offset(1, 4),
-                                                    ),
-                                                  ],
                                                   borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 2.5),
+                                                      BorderRadius.circular(5),
                                                 ),
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
@@ -1224,21 +1228,24 @@ class _MEEMState extends State<MEEM> {
                                                               height: _maxValue(
                                                                   value: screenHeight *
                                                                       alturaDoBotao,
-                                                                  max: 235),
+                                                                  max: 100),
                                                               width: size
                                                                       .width *
                                                                   larguraDoBotao,
                                                               child:
                                                                   BotaoPadrao(
-                                                                altura: screenHeight *
-                                                                    alturaDoBotao,
+                                                                altura: _maxValue(
+                                                                    value: screenHeight *
+                                                                        alturaDoBotao,
+                                                                    max: 100),
                                                                 corDoBotao: respostaDoExaminador ==
                                                                         condicaoExaminador
                                                                             .nao
-                                                                    ? kPurpleColor
-                                                                    : kCorInativa,
+                                                                    ? kCorAtiva
+                                                                    : kPurpleColor,
                                                                 botaoTexto:
                                                                     'Não',
+                                                                isWhite: true,
                                                                 aoPressionar:
                                                                     () {
                                                                   setState(() {
@@ -1250,17 +1257,13 @@ class _MEEMState extends State<MEEM> {
                                                               ),
                                                             ),
                                                             Container(
-                                                              height: _maxValue(
-                                                                  value: screenHeight *
-                                                                      alturaDoBotao,
-                                                                  max: 235),
+                                                              height: screenHeight *
+                                                                  alturaDoBotao,
                                                               width: size
                                                                       .width *
                                                                   larguraDoBotao,
                                                               child:
                                                                   BotaoPadrao(
-                                                                altura: screenHeight *
-                                                                    alturaDoBotao,
                                                                 aoPressionar:
                                                                     () {
                                                                   setState(() {
@@ -1272,10 +1275,13 @@ class _MEEMState extends State<MEEM> {
                                                                 corDoBotao: respostaDoExaminador ==
                                                                         condicaoExaminador
                                                                             .sim
-                                                                    ? kPurpleColor
-                                                                    : kCorInativa,
+                                                                    ? kCorAtiva
+                                                                    : kPurpleColor,
                                                                 botaoTexto:
                                                                     'Sim',
+                                                                isWhite: true,
+                                                                altura: screenHeight *
+                                                                    alturaDoBotao,
                                                               ),
                                                             ),
                                                           ]),
@@ -1298,42 +1304,24 @@ class _MEEMState extends State<MEEM> {
                                                     ? SingleChildScrollView(
                                                         child: Column(
                                                           children: [
-                                                            SizedBox(
-                                                                height:
-                                                                    screenHeight *
-                                                                        .07),
+                                                            //  SizedBox(
+                                                            //    height:
+                                                            //       screenHeight *
+                                                            //         .07),
                                                             Container(
                                                               height: _maxValue(
                                                                   value:
                                                                       screenHeight *
                                                                           .35,
-                                                                  max: 235),
+                                                                  max: 180),
                                                               decoration:
                                                                   BoxDecoration(
                                                                 color: Colors
                                                                     .white,
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    spreadRadius:
-                                                                        2,
-                                                                    blurRadius:
-                                                                        8,
-                                                                    offset:
-                                                                        Offset(
-                                                                            1,
-                                                                            4),
-                                                                  ),
-                                                                ],
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            25),
-                                                                border: Border.all(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 2.5),
+                                                                            5),
                                                               ),
                                                               child: Padding(
                                                                 padding:
@@ -1368,10 +1356,12 @@ class _MEEMState extends State<MEEM> {
                                                                             altura:
                                                                                 _maxValue(value: screenHeight * alturaDoBotao, max: 100),
                                                                             corDoBotao: respostaDoExaminador == condicaoExaminador.nao
-                                                                                ? kPurpleColor
-                                                                                : kCorInativa,
+                                                                                ? kCorAtiva
+                                                                                : kPurpleColor,
                                                                             botaoTexto:
                                                                                 'Não',
+                                                                            isWhite:
+                                                                                true,
                                                                             aoPressionar:
                                                                                 () {
                                                                               setState(() {
@@ -1394,10 +1384,12 @@ class _MEEMState extends State<MEEM> {
                                                                               });
                                                                             },
                                                                             corDoBotao: respostaDoExaminador == condicaoExaminador.sim
-                                                                                ? kPurpleColor
-                                                                                : kCorInativa,
+                                                                                ? kCorAtiva
+                                                                                : kPurpleColor,
                                                                             botaoTexto:
                                                                                 'Sim',
+                                                                            isWhite:
+                                                                                true,
                                                                             altura:
                                                                                 screenHeight * alturaDoBotao,
                                                                           ),
@@ -1457,41 +1449,23 @@ class _MEEMState extends State<MEEM> {
                                                                 '3 ações'
                                                             ? Column(
                                                                 children: [
-                                                                  SizedBox(
-                                                                      height:
-                                                                          screenHeight *
-                                                                              .1),
+                                                                  // SizedBox(
+                                                                  //  height:
+                                                                  //     screenHeight *
+                                                                  //        .1),
                                                                   Container(
                                                                     height: _maxValue(
                                                                         value: screenHeight *
                                                                             .35,
                                                                         max:
-                                                                            235),
+                                                                            180),
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       color: Colors
                                                                           .white,
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                          color:
-                                                                              Colors.grey,
-                                                                          spreadRadius:
-                                                                              2,
-                                                                          blurRadius:
-                                                                              8,
-                                                                          offset: Offset(
-                                                                              1,
-                                                                              4),
-                                                                        ),
-                                                                      ],
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              25),
-                                                                      border: Border.all(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          width:
-                                                                              2.5),
+                                                                              5),
                                                                     ),
                                                                     child:
                                                                         Padding(
@@ -1523,9 +1497,10 @@ class _MEEMState extends State<MEEM> {
                                                                                 height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
                                                                                 width: size.width * larguraDoBotao,
                                                                                 child: BotaoPadrao(
-                                                                                  corDoBotao: respostaDoExaminador == condicaoExaminador.nao ? kPurpleColor : kCorInativa,
+                                                                                  altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                  corDoBotao: respostaDoExaminador == condicaoExaminador.nao ? kCorAtiva : kPurpleColor,
                                                                                   botaoTexto: 'Não',
-                                                                                  altura: screenHeight * alturaDoBotao,
+                                                                                  isWhite: true,
                                                                                   aoPressionar: () {
                                                                                     setState(() {
                                                                                       respostaDoExaminador = condicaoExaminador.nao;
@@ -1534,7 +1509,7 @@ class _MEEMState extends State<MEEM> {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                height: screenHeight * alturaDoBotao,
                                                                                 width: size.width * larguraDoBotao,
                                                                                 child: BotaoPadrao(
                                                                                   aoPressionar: () {
@@ -1542,8 +1517,9 @@ class _MEEMState extends State<MEEM> {
                                                                                       respostaDoExaminador = condicaoExaminador.sim;
                                                                                     });
                                                                                   },
-                                                                                  corDoBotao: respostaDoExaminador == condicaoExaminador.sim ? kPurpleColor : kCorInativa,
+                                                                                  corDoBotao: respostaDoExaminador == condicaoExaminador.sim ? kCorAtiva : kPurpleColor,
                                                                                   botaoTexto: 'Sim',
+                                                                                  isWhite: true,
                                                                                   altura: screenHeight * alturaDoBotao,
                                                                                 ),
                                                                               ),
@@ -1576,29 +1552,13 @@ class _MEEMState extends State<MEEM> {
                                                                           value: screenHeight *
                                                                               .35,
                                                                           max:
-                                                                              235),
+                                                                              180),
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         color: Colors
                                                                             .white,
                                                                         borderRadius:
-                                                                            BorderRadius.circular(25),
-                                                                        border: Border.all(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            width: 3),
-                                                                        boxShadow: [
-                                                                          BoxShadow(
-                                                                            color:
-                                                                                Colors.grey,
-                                                                            spreadRadius:
-                                                                                2,
-                                                                            blurRadius:
-                                                                                8,
-                                                                            offset:
-                                                                                Offset(1, 4),
-                                                                          ),
-                                                                        ],
+                                                                            BorderRadius.circular(5),
                                                                       ),
                                                                       child:
                                                                           Padding(
@@ -1626,9 +1586,10 @@ class _MEEMState extends State<MEEM> {
                                                                                   height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
-                                                                                    corDoBotao: segundaRespostaDoExaminador == condicaoExaminador.nao ? kPurpleColor : kCorInativa,
+                                                                                    altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                    corDoBotao: segundaRespostaDoExaminador == condicaoExaminador.nao ? kCorAtiva : kPurpleColor,
                                                                                     botaoTexto: 'Não',
-                                                                                    altura: screenHeight * alturaDoBotao,
+                                                                                    isWhite: true,
                                                                                     aoPressionar: () {
                                                                                       setState(() {
                                                                                         segundaRespostaDoExaminador = condicaoExaminador.nao;
@@ -1637,7 +1598,7 @@ class _MEEMState extends State<MEEM> {
                                                                                   ),
                                                                                 ),
                                                                                 Container(
-                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                  height: screenHeight * alturaDoBotao,
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
                                                                                     aoPressionar: () {
@@ -1645,8 +1606,9 @@ class _MEEMState extends State<MEEM> {
                                                                                         segundaRespostaDoExaminador = condicaoExaminador.sim;
                                                                                       });
                                                                                     },
-                                                                                    corDoBotao: segundaRespostaDoExaminador == condicaoExaminador.sim ? kPurpleColor : kCorInativa,
+                                                                                    corDoBotao: segundaRespostaDoExaminador == condicaoExaminador.sim ? kCorAtiva : kPurpleColor,
                                                                                     botaoTexto: 'Sim',
+                                                                                    isWhite: true,
                                                                                     altura: screenHeight * alturaDoBotao,
                                                                                   ),
                                                                                 ),
@@ -1674,29 +1636,13 @@ class _MEEMState extends State<MEEM> {
                                                                           value: screenHeight *
                                                                               .35,
                                                                           max:
-                                                                              235),
+                                                                              180),
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         color: Colors
                                                                             .white,
                                                                         borderRadius:
-                                                                            BorderRadius.circular(25),
-                                                                        border: Border.all(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            width: 3),
-                                                                        boxShadow: [
-                                                                          BoxShadow(
-                                                                            color:
-                                                                                Colors.grey,
-                                                                            spreadRadius:
-                                                                                2,
-                                                                            blurRadius:
-                                                                                8,
-                                                                            offset:
-                                                                                Offset(1, 4),
-                                                                          ),
-                                                                        ],
+                                                                            BorderRadius.circular(5),
                                                                       ),
                                                                       child:
                                                                           Padding(
@@ -1724,9 +1670,10 @@ class _MEEMState extends State<MEEM> {
                                                                                   height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
-                                                                                    corDoBotao: terceiraRespostaDoExaminador == condicaoExaminador.nao ? kPurpleColor : kCorInativa,
+                                                                                    altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                    corDoBotao: terceiraRespostaDoExaminador == condicaoExaminador.nao ? kCorAtiva : kPurpleColor,
                                                                                     botaoTexto: 'Não',
-                                                                                    altura: screenHeight * alturaDoBotao,
+                                                                                    isWhite: true,
                                                                                     aoPressionar: () {
                                                                                       setState(() {
                                                                                         terceiraRespostaDoExaminador = condicaoExaminador.nao;
@@ -1735,7 +1682,7 @@ class _MEEMState extends State<MEEM> {
                                                                                   ),
                                                                                 ),
                                                                                 Container(
-                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                  height: screenHeight * alturaDoBotao,
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
                                                                                     aoPressionar: () {
@@ -1743,8 +1690,9 @@ class _MEEMState extends State<MEEM> {
                                                                                         terceiraRespostaDoExaminador = condicaoExaminador.sim;
                                                                                       });
                                                                                     },
-                                                                                    corDoBotao: terceiraRespostaDoExaminador == condicaoExaminador.sim ? kPurpleColor : kCorInativa,
+                                                                                    corDoBotao: terceiraRespostaDoExaminador == condicaoExaminador.sim ? kCorAtiva : kPurpleColor,
                                                                                     botaoTexto: 'Sim',
+                                                                                    isWhite: true,
                                                                                     altura: screenHeight * alturaDoBotao,
                                                                                   ),
                                                                                 ),
@@ -1780,22 +1728,22 @@ class _MEEMState extends State<MEEM> {
                                                                                 'dia da semana'
                                                                             ? Column(
                                                                                 children: [
-                                                                                  SizedBox(height: screenHeight * .2),
+                                                                                  // SizedBox(height: screenHeight * .2),
                                                                                   ChoiceList(
                                                                                     listItems: weekDays,
                                                                                     initialValue: weekDays.first,
                                                                                   ),
-                                                                                  SizedBox(height: screenHeight * .155),
+                                                                                  SizedBox(height: screenHeight * .22),
                                                                                 ],
                                                                               )
                                                                             : Column(
                                                                                 children: [
-                                                                                  SizedBox(height: screenHeight * .2),
+                                                                                  // SizedBox(height: screenHeight * .27),
                                                                                   ChoiceList(
                                                                                     listItems: months,
                                                                                     initialValue: months.first,
                                                                                   ),
-                                                                                  SizedBox(height: screenHeight * .155),
+                                                                                  SizedBox(height: screenHeight * .22),
                                                                                 ],
                                                                               ))
                                                                     //
@@ -1806,26 +1754,22 @@ class _MEEMState extends State<MEEM> {
                                                                                 'dia do mes'
                                                                             ? Column(
                                                                                 children: [
-                                                                                  SizedBox(height: screenHeight * .05),
-                                                                                  Text(
-                                                                                    'Selecione o dia informado pelo paciente',
-                                                                                    style: TextStyle(fontSize: _maxValue(value: screenHeight * .045, max: 28)),
-                                                                                    textAlign: TextAlign.center,
+                                                                                  // SizedBox(height: screenHeight * .05),
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left: 10),
+                                                                                    child: Text(
+                                                                                      'Selecione o dia informado pelo paciente',
+                                                                                      style: TextStyle(
+                                                                                        fontSize: _maxValue(value: screenHeight * .045, max: 25),
+                                                                                        color: Colors.white,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                      ),
+                                                                                      textAlign: TextAlign.start,
+                                                                                    ),
                                                                                   ),
                                                                                   SizedBox(height: screenHeight * .02),
                                                                                   Center(
-                                                                                    child: Container(
-                                                                                      decoration: BoxDecoration(
-                                                                                        border: Border.all(color: Colors.black, width: 2),
-                                                                                      ),
-                                                                                      height: _maxValue(value: boxHeight, max: 350),
-                                                                                      width: boxWidth,
-                                                                                      child: categoriaEspecial == 'dia do mes'
-                                                                                          ? Container(
-                                                                                              child: DaySelect(),
-                                                                                            )
-                                                                                          : Container(),
-                                                                                    ),
+                                                                                    child: categoriaEspecial == 'dia do mes' ? DaySelect() : Container(),
                                                                                   ),
                                                                                   SizedBox(height: screenHeight * .05),
                                                                                 ],
@@ -1836,10 +1780,10 @@ class _MEEMState extends State<MEEM> {
                                                                                 child: categoriaEspecial == 'hora'
                                                                                     ? Column(
                                                                                         children: [
-                                                                                          SizedBox(height: screenHeight * .07),
+                                                                                          // SizedBox(height: screenHeight * .07),
                                                                                           Text(
                                                                                             'Digite a hora informada pelo paciente',
-                                                                                            style: TextStyle(fontSize: _maxValue(value: screenHeight * .045, max: 28)),
+                                                                                            style: TextStyle(fontSize: _maxValue(value: screenHeight * .045, max: 28), color: Colors.white, fontWeight: FontWeight.w600),
                                                                                             textAlign: TextAlign.center,
                                                                                           ),
                                                                                           Row(
@@ -1852,7 +1796,11 @@ class _MEEMState extends State<MEEM> {
                                                                                               ),
                                                                                               Text(
                                                                                                 ' : ',
-                                                                                                style: TextStyle(fontSize: screenHeight * .08),
+                                                                                                style: TextStyle(
+                                                                                                  fontSize: screenHeight * .08,
+                                                                                                  color: Colors.white,
+                                                                                                  fontWeight: FontWeight.w900,
+                                                                                                ),
                                                                                               ),
                                                                                               Expanded(
                                                                                                 child: Padding(
@@ -1864,19 +1812,10 @@ class _MEEMState extends State<MEEM> {
                                                                                             ],
                                                                                           ),
                                                                                           Container(
-                                                                                            height: _maxValue(value: screenHeight * .35, max: 235),
+                                                                                            height: _maxValue(value: screenHeight * .35, max: 180),
                                                                                             decoration: BoxDecoration(
                                                                                               color: Colors.white,
-                                                                                              boxShadow: [
-                                                                                                BoxShadow(
-                                                                                                  color: Colors.grey,
-                                                                                                  spreadRadius: 2,
-                                                                                                  blurRadius: 8,
-                                                                                                  offset: Offset(1, 4),
-                                                                                                ),
-                                                                                              ],
-                                                                                              borderRadius: BorderRadius.circular(25),
-                                                                                              border: Border.all(color: Colors.black, width: 2.5),
+                                                                                              borderRadius: BorderRadius.circular(5),
                                                                                             ),
                                                                                             child: Padding(
                                                                                               padding: const EdgeInsets.all(11.0),
@@ -1892,8 +1831,9 @@ class _MEEMState extends State<MEEM> {
                                                                                                         width: size.width * larguraDoBotao,
                                                                                                         child: BotaoPadrao(
                                                                                                           altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
-                                                                                                          corDoBotao: respostaDoExaminador == condicaoExaminador.nao ? kPurpleColor : kCorInativa,
+                                                                                                          corDoBotao: respostaDoExaminador == condicaoExaminador.nao ? kCorAtiva : kPurpleColor,
                                                                                                           botaoTexto: 'Não',
+                                                                                                          isWhite: true,
                                                                                                           aoPressionar: () {
                                                                                                             setState(() {
                                                                                                               respostaDoExaminador = condicaoExaminador.nao;
@@ -1910,8 +1850,9 @@ class _MEEMState extends State<MEEM> {
                                                                                                               respostaDoExaminador = condicaoExaminador.sim;
                                                                                                             });
                                                                                                           },
-                                                                                                          corDoBotao: respostaDoExaminador == condicaoExaminador.sim ? kPurpleColor : kCorInativa,
+                                                                                                          corDoBotao: respostaDoExaminador == condicaoExaminador.sim ? kCorAtiva : kPurpleColor,
                                                                                                           botaoTexto: 'Sim',
+                                                                                                          isWhite: true,
                                                                                                           altura: screenHeight * alturaDoBotao,
                                                                                                         ),
                                                                                                       ),
@@ -1923,14 +1864,14 @@ class _MEEMState extends State<MEEM> {
                                                                                               ),
                                                                                             ),
                                                                                           ),
-                                                                                          SizedBox(height: screenHeight * .03),
+                                                                                          SizedBox(height: screenHeight * .05),
                                                                                         ],
                                                                                       )
                                                                                     : Column(
                                                                                         //
                                                                                         // Então ele retorna apenas um textformfield para a resposta
                                                                                         children: [
-                                                                                          SizedBox(height: screenHeight * .2),
+                                                                                          //SizedBox(height: screenHeight * .3),
                                                                                           respostaMeem(
                                                                                             label: 'Resposta do Paciente',
                                                                                             controlador: controladorDaBarraDeTexto,
@@ -1940,7 +1881,7 @@ class _MEEMState extends State<MEEM> {
                                                                                             validador: _primeiro_textfield_formkey,
                                                                                             isNumber: categoriaEspecial == 'ano atual' ? true : false,
                                                                                           ),
-                                                                                          SizedBox(height: screenHeight * .15),
+                                                                                          SizedBox(height: screenHeight * .2),
                                                                                         ],
                                                                                       ),
                                                                               ),
@@ -1948,139 +1889,148 @@ class _MEEMState extends State<MEEM> {
                                                               )),
                                           ),
                                   ),
+                          ),
+                  ),
+                ),
+
+                // Aqui é chamado o botão que confirma a resposta e avança
+                // para a próxima pergunta
+                //
+                // padding
+                Padding(
+                  padding: const EdgeInsets.all(kMargemDosWidgets),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                    children: [
+                      Expanded(
+                        child: BotaoPadrao(
+                          corDoBotao: perguntas.numeroDaPerguntaAtual < 1
+                              ? kCorInativa
+                              : kCorInativa,
+                          altura: screenHeight * .11,
+                          max_height: 40,
+                          botaoTexto: 'Voltar',
+                          aoPressionar: perguntas.numeroDaPerguntaAtual < 1
+                              ? () {}
+                              : () {
+                                  setState(() {
+                                    perguntas.perguntaAnterior();
+                                    categoriaAtual =
+                                        perguntas.obterCategoriaDaPergunta();
+                                    //
+                                    categoriaEspecial =
+                                        perguntas.obterCategoriaEspecial();
+                                    atribuirCores();
+                                    resposta = perguntas.obterResposta();
+                                    listaDeRespostasDoExaminador.removeLast();
+                                    //
+                                    // removendo o ultimo item da lista de respostas
+                                    respostasDoPaciente.removerResposta();
+
+                                    respostaDoExaminador =
+                                        condicaoExaminador.nulo;
+                                    segundaRespostaDoExaminador =
+                                        condicaoExaminador.nulo;
+                                    terceiraRespostaDoExaminador =
+                                        condicaoExaminador.nulo;
+                                    //
+                                    //
+                                    controladorDaBarraDeTexto =
+                                        TextEditingController();
+                                    segundoControladorDeTexto =
+                                        TextEditingController();
+                                    terceiroControladorDeTexto =
+                                        TextEditingController();
+                                    //
+                                    //
+                                    fraseDoPaciente = '';
+                                    day_of_month = '';
+                                  });
+                                },
+                        ),
                       ),
-              ),
-            ),
+                      SizedBox(width: size.width * .015),
+                      Expanded(
+                        child: BotaoPadrao(
+                          corDoBotao: Colors.white,
+                          altura: screenHeight * .11,
+                          max_height: 32,
+                          botaoTexto: 'Confirmar',
+                          aoPressionar: () {
+                            //
+                            //
+                            //
 
-            // Aqui é chamado o botão que confirma a resposta e avança
-            // para a próxima pergunta
-            //
-            // padding
-            Padding(
-              padding: const EdgeInsets.all(kMargemDosWidgets),
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // Quando o botão é pressionado,
+                            //ele chama a função que confere a resposta
 
-                children: [
-                  Expanded(
-                    child: BotaoPadrao(
-                      corDoBotao: perguntas.numeroDaPerguntaAtual < 1
-                          ? kCorInativa
-                          : kPurpleColor,
-                      altura: screenHeight * .11,
-                      max_height: 40,
-                      botaoTexto: 'Voltar',
-                      aoPressionar: perguntas.numeroDaPerguntaAtual < 1
-                          ? () {}
-                          : () {
-                              setState(() {
-                                perguntas.perguntaAnterior();
-                                categoriaAtual =
-                                    perguntas.obterCategoriaDaPergunta();
-                                //
-                                categoriaEspecial =
-                                    perguntas.obterCategoriaEspecial();
-                                atribuirCores();
-                                resposta = perguntas.obterResposta();
-                                listaDeRespostasDoExaminador.removeLast();
-                                //
-                                // removendo o ultimo item da lista de respostas
-                                respostasDoPaciente.removerResposta();
-
-                                respostaDoExaminador = condicaoExaminador.nulo;
-                                segundaRespostaDoExaminador =
-                                    condicaoExaminador.nulo;
-                                terceiraRespostaDoExaminador =
-                                    condicaoExaminador.nulo;
-                                //
-                                //
-                                controladorDaBarraDeTexto =
-                                    TextEditingController();
-                                segundoControladorDeTexto =
-                                    TextEditingController();
-                                terceiroControladorDeTexto =
-                                    TextEditingController();
-                                //
-                                //
-                                fraseDoPaciente = '';
-                                day_of_month = '';
-                              });
-                            },
-                    ),
-                  ),
-                  SizedBox(width: size.width * .015),
-                  Expanded(
-                    child: BotaoPadrao(
-                      corDoBotao: Colors.white,
-                      altura: screenHeight * .11,
-                      max_height: 32,
-                      botaoTexto: 'Confirmar',
-                      aoPressionar: () {
-                        //
-                        //
-                        //
-
-                        // Quando o botão é pressionado,
-                        //ele chama a função que confere a resposta
-                        if (categoriaEspecial == 'dia da semana' ||
-                            categoriaEspecial == 'dia do mes' ||
-                            categoriaEspecial == 'mes atual' ||
-                            categoriaEspecial == '3 acões' ||
-                            categoriaEspecial == 'executar comando' ||
-                            categoriaEspecial == 'desenho' ||
-                            categoriaEspecial == 'endereço') {
-                          apertarConfirmar();
-                        } else {
-                          if (categoriaAtual == 'Memória Imediata' ||
-                              categoriaAtual == 'Memória Recente') {
-                            if (_primeiro_textfield_formkey.currentState!
-                                    .validate() &&
-                                _segundo_textfield_formkey.currentState!
-                                    .validate() &&
-                                _terceiro_textfield_formkey.currentState!
-                                    .validate()) {
+                            /*
+                            if (categoriaEspecial == 'dia da semana' ||
+                                categoriaEspecial == 'dia do mes' ||
+                                categoriaEspecial == 'mes atual' ||
+                                categoriaEspecial == '3 acões' ||
+                                categoriaEspecial == 'executar comando' ||
+                                categoriaEspecial == 'desenho' ||
+                                categoriaEspecial == 'endereço') {
                               apertarConfirmar();
-                            }
-                          } else if (categoriaEspecial == 'nomear objetos' ||
-                              categoriaAtual == 'hora') {
-                            if (_segundo_textfield_formkey.currentState!
-                                    .validate() &&
-                                _primeiro_textfield_formkey.currentState!
-                                    .validate()) {
-                              apertarConfirmar();
-                            }
-                          } else if (categoriaEspecial == 'escrever frase') {
-                            if (_primeiro_textfield_formkey.currentState!
-                                .validate()) {
-                              apertarConfirmar();
-                            }
-                          } else if (categoriaEspecial == 'repetir frase') {
-                            if (respostaDoExaminador ==
-                                condicaoExaminador.nao) {
-                              if (_primeiro_textfield_formkey.currentState!
-                                  .validate()) {
-                                apertarConfirmar();
-                              }
                             } else {
-                              apertarConfirmar();
+                              if (categoriaAtual == 'Memória Imediata' ||
+                                  categoriaAtual == 'Memória Recente') {
+                                if (_primeiro_textfield_formkey.currentState!
+                                        .validate() &&
+                                    _segundo_textfield_formkey.currentState!
+                                        .validate() &&
+                                    _terceiro_textfield_formkey.currentState!
+                                        .validate()) {
+                                  apertarConfirmar();
+                                }
+                              } else if (categoriaEspecial ==
+                                      'nomear objetos' ||
+                                  categoriaAtual == 'hora') {
+                                if (_segundo_textfield_formkey.currentState!
+                                        .validate() &&
+                                    _primeiro_textfield_formkey.currentState!
+                                        .validate()) {
+                                  apertarConfirmar();
+                                }
+                              } else if (categoriaEspecial ==
+                                  'escrever frase') {
+                                if (_primeiro_textfield_formkey.currentState!
+                                    .validate()) {
+                                  apertarConfirmar();
+                                }
+                              } else if (categoriaEspecial == 'repetir frase') {
+                                if (respostaDoExaminador ==
+                                    condicaoExaminador.nao) {
+                                  if (_primeiro_textfield_formkey.currentState!
+                                      .validate()) {
+                                    apertarConfirmar();
+                                  }
+                                } else {
+                                  apertarConfirmar();
+                                }
+                              } else {
+                                if (_primeiro_textfield_formkey.currentState!
+                                    .validate()) {
+                                  apertarConfirmar();
+                                }
+                              }
                             }
-                          } else {
-                            if (_primeiro_textfield_formkey.currentState!
-                                .validate()) {
-                              apertarConfirmar();
-                            }
-                          }
-                        }
 
-                        // else
-                        //  apertarConfirmar();
-                      },
-                    ),
+                            */
+
+                            //else
+                            apertarConfirmar();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -2091,8 +2041,8 @@ class _MEEMState extends State<MEEM> {
       texto,
       style: TextStyle(
         fontSize: _maxValue(value: textSize, max: 24),
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
+        color: kPurpleColor,
+        fontWeight: FontWeight.w600,
       ),
       textAlign: TextAlign.center,
     );
@@ -2146,8 +2096,8 @@ Widget respostaMeem(
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            labelText: label,
-            labelStyle: TextStyle(
+            hintText: label,
+            hintStyle: TextStyle(
               color: kPurpleColor,
               fontSize: labelSize,
               fontWeight: FontWeight.w600,
@@ -2249,3 +2199,94 @@ class _PaginaDoDesenhoState extends State<PaginaDoDesenho> {
     );
   }
 }
+
+/*
+
+Container(
+                                                height: _maxValue(
+                                                    value: screenHeight * .35,
+                                                    max: 180),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      11.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      textoDeConfirmacao(
+                                                          'O paciente conseguiu informar a hora corretamente?',
+                                                          screenHeight *
+                                                              tamanhoDoTexto),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          Container(
+                                                            height: _maxValue(
+                                                                value: screenHeight *
+                                                                    alturaDoBotao,
+                                                                max: 100),
+                                                            width: size.width *
+                                                                larguraDoBotao,
+                                                            child: BotaoPadrao(
+                                                              altura: _maxValue(
+                                                                  value: screenHeight *
+                                                                      alturaDoBotao,
+                                                                  max: 100),
+                                                              corDoBotao: respostaDoExaminador ==
+                                                                      condicaoExaminador
+                                                                          .nao
+                                                                  ? kCorAtiva
+                                                                  : kPurpleColor,
+                                                              botaoTexto: 'Não',
+                                                              isWhite: true,
+                                                              aoPressionar: () {
+                                                                setState(() {
+                                                                  respostaDoExaminador =
+                                                                      condicaoExaminador
+                                                                          .nao;
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            height: screenHeight *
+                                                                alturaDoBotao,
+                                                            width: size.width *
+                                                                larguraDoBotao,
+                                                            child: BotaoPadrao(
+                                                              aoPressionar: () {
+                                                                setState(() {
+                                                                  respostaDoExaminador =
+                                                                      condicaoExaminador
+                                                                          .sim;
+                                                                });
+                                                              },
+                                                              corDoBotao: respostaDoExaminador ==
+                                                                      condicaoExaminador
+                                                                          .sim
+                                                                  ? kCorAtiva
+                                                                  : kPurpleColor,
+                                                              botaoTexto: 'Sim',
+                                                              isWhite: true,
+                                                              altura: screenHeight *
+                                                                  alturaDoBotao,
+                                                            ),
+                                                          ),
+                                                          //
+                                                          //
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+
+*/

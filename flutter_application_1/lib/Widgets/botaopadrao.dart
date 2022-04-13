@@ -8,17 +8,19 @@ class BotaoPadrao extends StatefulWidget {
   final double textSize;
   final double? altura;
   final double? largura;
+  final bool? isWhite;
   double max_height;
-  BotaoPadrao(
-      {Key? key,
-      this.botaoTexto,
-      required this.aoPressionar,
-      this.corDoBotao = kPurpleColor,
-      this.textSize = .5,
-      this.altura,
-      this.largura,
-      this.max_height = 30})
-      : super(key: key);
+  BotaoPadrao({
+    Key? key,
+    this.botaoTexto,
+    required this.aoPressionar,
+    this.corDoBotao = kPurpleColor,
+    this.textSize = .5,
+    this.altura,
+    this.largura,
+    this.max_height = 30,
+    this.isWhite = false,
+  }) : super(key: key);
 
   @override
   State<BotaoPadrao> createState() => _BotaoPadraoState();
@@ -49,8 +51,8 @@ class _BotaoPadraoState extends State<BotaoPadrao> {
                   value: widget.altura! * widget.textSize,
                   max: widget.max_height),
               // fontSize: widget.altura! * widget.textSize,
-              fontWeight: FontWeight.bold,
-              color: kPurpleColor),
+              fontWeight: FontWeight.w900,
+              color: widget.isWhite == true ? Colors.white : kPurpleColor),
           textAlign: TextAlign.center,
         ),
         style: TextButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Widgets/constantes.dart';
 
 String diaDaSemana = '';
 String mesAtual = '';
@@ -50,8 +51,10 @@ class _ChoiceListState extends State<ChoiceList> {
     var containerHeight = screenHeight * .091;
     return Container(
       height: containerHeight,
-      decoration:
-          BoxDecoration(border: Border.all(color: Colors.black, width: 2)),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          //border: Border.all(color: Colors.black, width: 2),
+          borderRadius: BorderRadius.circular(10)),
       child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
         value: widget.initialValue,
@@ -75,7 +78,10 @@ class _ChoiceListState extends State<ChoiceList> {
               child: Text(
                 value,
                 style: TextStyle(
-                    fontSize: _maxValue(value: containerHeight * .37, max: 18)),
+                  fontSize: _maxValue(value: containerHeight * .37, max: 18),
+                  color: kPurpleColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           );
