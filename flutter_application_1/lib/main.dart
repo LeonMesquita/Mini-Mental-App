@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/pagina_de_resultados.dart';
-import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/teste.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/selecionar_exame.dart';
 import 'package:flutter_application_1/Widgets/constantes.dart';
 import 'package:flutter_application_1/Testes Cognitivos/MEEM/meem.dart';
@@ -10,6 +10,8 @@ import 'Testes Cognitivos/MEEM/dados_do_paciente.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/get_position.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,

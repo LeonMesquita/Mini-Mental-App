@@ -44,7 +44,7 @@ class _TextoResponsivoState extends State<TextoResponsivo> {
           ),
           fontWeight: FontWeight.bold,
           color: widget.text_color),
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.start,
     );
   }
 }

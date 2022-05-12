@@ -16,13 +16,20 @@ class _DaySelectState extends State<DaySelect> {
   Color cor_do_botao = Colors.white;
   List<Color> colors = [Colors.white];
 
+  double _maxValue({required double value, required double max}) {
+    if (value < max) {
+      return value;
+    } else
+      return max;
+  }
+
   @override
   Widget build(BuildContext context) {
     var appbar = AppBar();
     var size = MediaQuery.of(context).size;
     var screenHeight = (size.height - appbar.preferredSize.height) -
         MediaQuery.of(context).padding.top;
-    var boxHeight = screenHeight * .55;
+    var boxHeight = _maxValue(value: screenHeight * .6, max: 360);
     List<Widget> listaDeDias = [
       botao(buttonText: '1'),
       botao(buttonText: '2'),
@@ -69,8 +76,8 @@ class _DaySelectState extends State<DaySelect> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Wrap(
-              spacing: boxHeight * .04,
-              runSpacing: boxHeight * .05,
+              spacing: _maxValue(value: boxHeight * .03, max: 6.5),
+              runSpacing: _maxValue(value: boxHeight * .05, max: 20),
               children: listaDeDias,
             ),
             //
@@ -97,15 +104,15 @@ class _DaySelectState extends State<DaySelect> {
         MediaQuery.of(context).padding.top;
     var boxHeight = screenHeight * daySize;
     var buttonSize = boxHeight * .113;
-    var textSize = buttonSize * .65;
+    var textSize = _maxValue(value: buttonSize * .65, max: 17.0);
     var boxWidth = size.width * dayWidth;
     return Container(
       decoration: BoxDecoration(
         color: day_of_month == buttonText ? kCorAtiva : kPurpleColor,
         borderRadius: BorderRadius.circular(5),
       ),
-      height: boxHeight * .12,
-      width: boxWidth * .14,
+      height: _maxValue(value: boxHeight * .16, max: 45),
+      width: _maxValue(value: boxWidth * .14, max: 38),
       child: TextButton(
         onPressed: () {
           setState(() {

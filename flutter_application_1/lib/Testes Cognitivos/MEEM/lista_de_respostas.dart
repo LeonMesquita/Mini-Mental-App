@@ -194,7 +194,6 @@ class ListaDeRespostas {
       padding: const EdgeInsets.only(left: 14, right: 14, bottom: 10),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 2),
           color: Colors.white,
         ),
         child: Padding(

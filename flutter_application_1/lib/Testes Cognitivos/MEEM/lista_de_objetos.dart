@@ -10,7 +10,7 @@ List<CorpoDaImagem> bancoDeImagens = [
   CorpoDaImagem(
       imagePath: 'assets/imagens/objetos/caneta.jpg', imageName: 'caneta'),
   CorpoDaImagem(
-      imagePath: 'assets/imagens/objetos/relogio.jpg', imageName: 'relógio'),
+      imagePath: 'assets/imagens/objetos/relogio.jpg', imageName: 'relogio'),
   CorpoDaImagem(
       imagePath: 'assets/imagens/objetos/carro.jpg', imageName: 'carro'),
   CorpoDaImagem(

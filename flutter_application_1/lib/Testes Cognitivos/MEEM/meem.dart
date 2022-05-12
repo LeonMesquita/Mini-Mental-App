@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/selecionar_exame.dart';
 import 'package:flutter_application_1/Widgets/choice_list.dart';
 import 'package:flutter_application_1/Widgets/day_select.dart';
+import 'package:flutter_application_1/Widgets/remove_accents.dart';
 import 'perguntas.dart';
 import 'dados_do_paciente.dart';
 import 'pagina_de_resultados.dart';
@@ -570,12 +571,15 @@ class _MEEMState extends State<MEEM> {
     //
     else if (categoriaAtual == 'Memória Imediata' ||
         categoriaAtual == 'Memória Recente') {
-      reserva.add(
-          controladorDaBarraDeTexto.text.toLowerCase().trimRight().trimLeft());
-      reserva.add(
-          segundoControladorDeTexto.text.toLowerCase().trimRight().trimLeft());
-      reserva.add(
-          terceiroControladorDeTexto.text.toLowerCase().trimRight().trimLeft());
+      String str1 =
+          controladorDaBarraDeTexto.text.toLowerCase().trimRight().trimLeft();
+      String str2 =
+          segundoControladorDeTexto.text.toLowerCase().trimRight().trimLeft();
+      String str3 =
+          terceiroControladorDeTexto.text.toLowerCase().trimRight().trimLeft();
+      reserva.add(removeAccents(str1));
+      reserva.add(removeAccents(str2));
+      reserva.add(removeAccents(str3));
       //
       listaDeRespostasDoExaminador.add(reserva);
       //
@@ -624,10 +628,13 @@ class _MEEMState extends State<MEEM> {
     //
     //
     else if (categoriaAtual == 'Linguagem' && resposta is List) {
-      reserva.add(
+      String obj1 = removeAccents(
           controladorDaBarraDeTexto.text.toLowerCase().trimRight().trimLeft());
-      reserva.add(
+
+      String obj2 = removeAccents(
           segundoControladorDeTexto.text.toLowerCase().trimRight().trimLeft());
+      reserva.add(obj1);
+      reserva.add(obj2);
       //
       listaDeRespostasDoExaminador.add(reserva);
       //
@@ -829,12 +836,12 @@ class _MEEMState extends State<MEEM> {
     //
     //
     else {
-      listaDeRespostasDoExaminador.add(
+      String str = removeAccents(
           controladorDaBarraDeTexto.text.toLowerCase().trimRight().trimLeft());
+      listaDeRespostasDoExaminador.add(str);
       enunciadoDaPergunta = perguntas.obterEnuncuadoDasPerguntas();
 
-      if (controladorDaBarraDeTexto.text.toLowerCase().trimRight().trimLeft() ==
-          resposta) {
+      if (str == resposta) {
         esta_correto = true;
       } else {
         esta_correto = false;
@@ -844,8 +851,7 @@ class _MEEMState extends State<MEEM> {
       // preenchendo a lista de respostas do paciente
       respostasDoPaciente.preencherListaDeRespostas(
         perg: enunciadoDaPergunta,
-        resp:
-            controladorDaBarraDeTexto.text.toLowerCase().trimRight().trimLeft(),
+        resp: str,
         correct: esta_correto,
         list_correct: [true],
       );
@@ -972,12 +978,44 @@ class _MEEMState extends State<MEEM> {
         // Botão que leva para a página inicial
         IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SelecionarExame(),
-              ),
-            );
+            Alert(
+              context: context,
+              type: AlertType.warning,
+              title: 'Tem certeza de que deseja voltar para a tela inicial?',
+              buttons: [
+                DialogButton(
+                  color: kCorDoTema,
+                  child: Text(
+                    "Cancelar",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  width: 120,
+                ),
+                DialogButton(
+                  color: kCorDoTema,
+                  child: Text(
+                    "Confirmar",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  //
+                  // Resetando o exame...
+                  onPressed: () {
+                    setState(() {
+                      resetarExame();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SelecionarExame(),
+                        ),
+                      );
+                    });
+                  },
+                  width: 120,
+                ),
+              ],
+            ).show();
           },
           icon: Icon(Icons.home),
         ),
@@ -994,8 +1032,9 @@ class _MEEMState extends State<MEEM> {
 
     //
     //
-    var screenHeight = (size.height - appbar.preferredSize.height) -
-        MediaQuery.of(context).padding.top;
+    var appbarHeight =
+        appbar.preferredSize.height + MediaQuery.of(context).padding.top;
+    var screenHeight = size.height - appbarHeight;
 
     //
     //
@@ -1035,7 +1074,7 @@ class _MEEMState extends State<MEEM> {
               image: AssetImage(kBackgroundImage), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top: 120),
+          padding: const EdgeInsets.only(top: 90),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1046,7 +1085,7 @@ class _MEEMState extends State<MEEM> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Container(
-                    //color: Colors.red,
+                    // color: Colors.red,
                     height: screenHeight * .55,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -1228,7 +1267,7 @@ class _MEEMState extends State<MEEM> {
                                                               height: _maxValue(
                                                                   value: screenHeight *
                                                                       alturaDoBotao,
-                                                                  max: 100),
+                                                                  max: 65),
                                                               width: size
                                                                       .width *
                                                                   larguraDoBotao,
@@ -1237,7 +1276,7 @@ class _MEEMState extends State<MEEM> {
                                                                 altura: _maxValue(
                                                                     value: screenHeight *
                                                                         alturaDoBotao,
-                                                                    max: 100),
+                                                                    max: 65),
                                                                 corDoBotao: respostaDoExaminador ==
                                                                         condicaoExaminador
                                                                             .nao
@@ -1257,8 +1296,10 @@ class _MEEMState extends State<MEEM> {
                                                               ),
                                                             ),
                                                             Container(
-                                                              height: screenHeight *
-                                                                  alturaDoBotao,
+                                                              height: _maxValue(
+                                                                  value: screenHeight *
+                                                                      alturaDoBotao,
+                                                                  max: 65),
                                                               width: size
                                                                       .width *
                                                                   larguraDoBotao,
@@ -1280,8 +1321,10 @@ class _MEEMState extends State<MEEM> {
                                                                 botaoTexto:
                                                                     'Sim',
                                                                 isWhite: true,
-                                                                altura: screenHeight *
-                                                                    alturaDoBotao,
+                                                                altura: _maxValue(
+                                                                    value: screenHeight *
+                                                                        alturaDoBotao,
+                                                                    max: 65),
                                                               ),
                                                             ),
                                                           ]),
@@ -1313,7 +1356,7 @@ class _MEEMState extends State<MEEM> {
                                                                   value:
                                                                       screenHeight *
                                                                           .35,
-                                                                  max: 180),
+                                                                  max: 190),
                                                               decoration:
                                                                   BoxDecoration(
                                                                 color: Colors
@@ -1348,13 +1391,13 @@ class _MEEMState extends State<MEEM> {
                                                                         Container(
                                                                           height: _maxValue(
                                                                               value: screenHeight * alturaDoBotao,
-                                                                              max: 100),
+                                                                              max: 65),
                                                                           width:
                                                                               size.width * larguraDoBotao,
                                                                           child:
                                                                               BotaoPadrao(
                                                                             altura:
-                                                                                _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                             corDoBotao: respostaDoExaminador == condicaoExaminador.nao
                                                                                 ? kCorAtiva
                                                                                 : kPurpleColor,
@@ -1371,8 +1414,9 @@ class _MEEMState extends State<MEEM> {
                                                                           ),
                                                                         ),
                                                                         Container(
-                                                                          height:
-                                                                              screenHeight * alturaDoBotao,
+                                                                          height: _maxValue(
+                                                                              value: screenHeight * alturaDoBotao,
+                                                                              max: 65),
                                                                           width:
                                                                               size.width * larguraDoBotao,
                                                                           child:
@@ -1391,7 +1435,7 @@ class _MEEMState extends State<MEEM> {
                                                                             isWhite:
                                                                                 true,
                                                                             altura:
-                                                                                screenHeight * alturaDoBotao,
+                                                                                _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                           ),
                                                                         ),
                                                                         //
@@ -1458,7 +1502,7 @@ class _MEEMState extends State<MEEM> {
                                                                         value: screenHeight *
                                                                             .35,
                                                                         max:
-                                                                            180),
+                                                                            190),
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       color: Colors
@@ -1497,7 +1541,7 @@ class _MEEMState extends State<MEEM> {
                                                                                 height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
                                                                                 width: size.width * larguraDoBotao,
                                                                                 child: BotaoPadrao(
-                                                                                  altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                  altura: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                   corDoBotao: respostaDoExaminador == condicaoExaminador.nao ? kCorAtiva : kPurpleColor,
                                                                                   botaoTexto: 'Não',
                                                                                   isWhite: true,
@@ -1509,7 +1553,7 @@ class _MEEMState extends State<MEEM> {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                height: screenHeight * alturaDoBotao,
+                                                                                height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                 width: size.width * larguraDoBotao,
                                                                                 child: BotaoPadrao(
                                                                                   aoPressionar: () {
@@ -1552,7 +1596,7 @@ class _MEEMState extends State<MEEM> {
                                                                           value: screenHeight *
                                                                               .35,
                                                                           max:
-                                                                              180),
+                                                                              190),
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         color: Colors
@@ -1583,7 +1627,7 @@ class _MEEMState extends State<MEEM> {
                                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                               children: [
                                                                                 Container(
-                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
                                                                                     altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
@@ -1598,7 +1642,7 @@ class _MEEMState extends State<MEEM> {
                                                                                   ),
                                                                                 ),
                                                                                 Container(
-                                                                                  height: screenHeight * alturaDoBotao,
+                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
                                                                                     aoPressionar: () {
@@ -1636,7 +1680,7 @@ class _MEEMState extends State<MEEM> {
                                                                           value: screenHeight *
                                                                               .35,
                                                                           max:
-                                                                              180),
+                                                                              190),
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         color: Colors
@@ -1667,7 +1711,7 @@ class _MEEMState extends State<MEEM> {
                                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                               children: [
                                                                                 Container(
-                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
                                                                                     altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
@@ -1682,7 +1726,7 @@ class _MEEMState extends State<MEEM> {
                                                                                   ),
                                                                                 ),
                                                                                 Container(
-                                                                                  height: screenHeight * alturaDoBotao,
+                                                                                  height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                   width: size.width * larguraDoBotao,
                                                                                   child: BotaoPadrao(
                                                                                     aoPressionar: () {
@@ -1733,7 +1777,7 @@ class _MEEMState extends State<MEEM> {
                                                                                     listItems: weekDays,
                                                                                     initialValue: weekDays.first,
                                                                                   ),
-                                                                                  SizedBox(height: screenHeight * .22),
+                                                                                  SizedBox(height: _maxValue(value: screenHeight * .22, max: 125)),
                                                                                 ],
                                                                               )
                                                                             : Column(
@@ -1743,7 +1787,7 @@ class _MEEMState extends State<MEEM> {
                                                                                     listItems: months,
                                                                                     initialValue: months.first,
                                                                                   ),
-                                                                                  SizedBox(height: screenHeight * .22),
+                                                                                  SizedBox(height: _maxValue(value: screenHeight * .22, max: 125)),
                                                                                 ],
                                                                               ))
                                                                     //
@@ -1812,7 +1856,7 @@ class _MEEMState extends State<MEEM> {
                                                                                             ],
                                                                                           ),
                                                                                           Container(
-                                                                                            height: _maxValue(value: screenHeight * .35, max: 180),
+                                                                                            height: _maxValue(value: screenHeight * .35, max: 190),
                                                                                             decoration: BoxDecoration(
                                                                                               color: Colors.white,
                                                                                               borderRadius: BorderRadius.circular(5),
@@ -1827,7 +1871,7 @@ class _MEEMState extends State<MEEM> {
                                                                                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                                                     children: [
                                                                                                       Container(
-                                                                                                        height: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
+                                                                                                        height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                                         width: size.width * larguraDoBotao,
                                                                                                         child: BotaoPadrao(
                                                                                                           altura: _maxValue(value: screenHeight * alturaDoBotao, max: 100),
@@ -1842,7 +1886,7 @@ class _MEEMState extends State<MEEM> {
                                                                                                         ),
                                                                                                       ),
                                                                                                       Container(
-                                                                                                        height: screenHeight * alturaDoBotao,
+                                                                                                        height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
                                                                                                         width: size.width * larguraDoBotao,
                                                                                                         child: BotaoPadrao(
                                                                                                           aoPressionar: () {
@@ -1881,7 +1925,7 @@ class _MEEMState extends State<MEEM> {
                                                                                             validador: _primeiro_textfield_formkey,
                                                                                             isNumber: categoriaEspecial == 'ano atual' ? true : false,
                                                                                           ),
-                                                                                          SizedBox(height: screenHeight * .2),
+                                                                                          SizedBox(height: _maxValue(value: screenHeight * .2, max: 125)),
                                                                                         ],
                                                                                       ),
                                                                               ),
@@ -1909,7 +1953,7 @@ class _MEEMState extends State<MEEM> {
                               ? kCorInativa
                               : kCorInativa,
                           altura: screenHeight * .11,
-                          max_height: 40,
+                          max_height: 32,
                           botaoTexto: 'Voltar',
                           aoPressionar: perguntas.numeroDaPerguntaAtual < 1
                               ? () {}
@@ -1965,7 +2009,6 @@ class _MEEMState extends State<MEEM> {
                             // Quando o botão é pressionado,
                             //ele chama a função que confere a resposta
 
-                            /*
                             if (categoriaEspecial == 'dia da semana' ||
                                 categoriaEspecial == 'dia do mes' ||
                                 categoriaEspecial == 'mes atual' ||
@@ -2018,10 +2061,8 @@ class _MEEMState extends State<MEEM> {
                               }
                             }
 
-                            */
-
                             //else
-                            apertarConfirmar();
+                            // apertarConfirmar();
                           },
                         ),
                       ),

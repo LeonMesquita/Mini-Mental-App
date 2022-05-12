@@ -48,7 +48,7 @@ class _ChoiceListState extends State<ChoiceList> {
     var size = MediaQuery.of(context).size;
     var screenHeight = (size.height - appbar.preferredSize.height) -
         MediaQuery.of(context).padding.top;
-    var containerHeight = screenHeight * .091;
+    var containerHeight = screenHeight * .10;
     return Container(
       height: containerHeight,
       decoration: BoxDecoration(
@@ -58,7 +58,11 @@ class _ChoiceListState extends State<ChoiceList> {
       child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
         value: widget.initialValue,
-        icon: Icon(Icons.arrow_downward, size: containerHeight * .5),
+        icon: Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: kPurpleColor,
+          size: 40,
+        ),
         elevation: 16,
         style: const TextStyle(color: Colors.black),
         isExpanded: true,

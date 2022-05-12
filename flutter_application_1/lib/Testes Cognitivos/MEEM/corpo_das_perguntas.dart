@@ -1,6 +1,6 @@
 class PerguntasEscritas {
   dynamic questao;
-  String enunciado;
+  dynamic enunciado;
   dynamic respostaDaQuestao;
   String categoriaDaPergunta;
   String categoriaEspecial;

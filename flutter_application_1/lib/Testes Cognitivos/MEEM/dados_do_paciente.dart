@@ -1,6 +1,8 @@
 import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/texto_responsivo.dart';
+import 'package:flutter_application_1/Widgets/remove_accents.dart';
 import 'package:geocoding/geocoding.dart';
 
+import '../selecionar_exame.dart';
 import 'meem.dart';
 import 'dart:ui';
 
@@ -80,9 +82,10 @@ class _DadosDoPacienteState extends State<DadosDoPaciente> {
   void selecionarProsseguir() {
     atribuirDadosDoPaciente();
     perguntas.editarPerguntasDeLocalidade(
-      local: localDoExame.text.toLowerCase().trimRight().trimLeft(),
-      localEspecifico:
-          localEspecifico.text.toLowerCase().trimRight().trimLeft(),
+      local:
+          removeAccents(localDoExame.text.toLowerCase().trimRight().trimLeft()),
+      localEspecifico: removeAccents(
+          localEspecifico.text.toLowerCase().trimRight().trimLeft()),
     );
 
     //  Future test1 = updatePosition();
@@ -111,11 +114,18 @@ class _DadosDoPacienteState extends State<DadosDoPaciente> {
       actions: [
         IconButton(
           icon: Icon(
-            Icons.home_outlined,
+            Icons.home,
             color: Colors.white,
             size: 30,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SelecionarExame(),
+              ),
+            );
+          },
         ),
       ],
     );
@@ -125,6 +135,7 @@ class _DadosDoPacienteState extends State<DadosDoPaciente> {
 
     var size = MediaQuery.of(context).size;
     var screenHeight = size.height - appBarHeight;
+
     var labelsize = screenHeight * .03;
     var cursorsize = screenHeight * .04;
     var containerSize = screenHeight * .47;
@@ -141,7 +152,7 @@ class _DadosDoPacienteState extends State<DadosDoPaciente> {
               image: AssetImage(kBackgroundImage), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top: 120),
+          padding: const EdgeInsets.only(top: 90),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

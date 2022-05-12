@@ -5,6 +5,7 @@ import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/gerar_imagens.dar
 import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/meem.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/perguntas_responsivas.dart';
 import 'package:flutter_application_1/Widgets/constantes.dart';
+import 'package:flutter_application_1/Widgets/remove_accents.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:math';
@@ -133,7 +134,7 @@ class Perguntas {
           textSize: .18,
           max_height: 50,
         ),
-        respostaDaQuestao: city),
+        respostaDaQuestao: removeAccents(city)),
     // santa clara county
     PerguntasEscritas(
         categoriaDaPergunta: 'Orientação Espacial',
@@ -143,7 +144,7 @@ class Perguntas {
           textSize: .18,
           max_height: 50,
         ),
-        respostaDaQuestao: state),
+        respostaDaQuestao: removeAccents(state)),
     // california
     // carro tijolo rua
     PerguntasEscritas(
@@ -194,10 +195,11 @@ class Perguntas {
 
     // 3 ATENÇÃO E CALCULO
     PerguntasEscritas(
-        categoriaDaPergunta: 'Atenção e Cálculo',
-        enunciado: enunciadoDoCalculo(),
-        questao: realizarCalculo(),
-        respostaDaQuestao: calc.toString()),
+      categoriaDaPergunta: 'Atenção e Cálculo',
+      enunciado: enunciadoDoCalculo(),
+      questao: realizarCalculo(),
+      respostaDaQuestao: calc.toString(),
+    ),
     PerguntasEscritas(
         categoriaDaPergunta: 'Atenção e Cálculo',
         enunciado: enunciadoDoCalculo(),
