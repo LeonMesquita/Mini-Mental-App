@@ -79,7 +79,7 @@ class Perguntas {
         respostaDaQuestao: mes),
     PerguntasEscritas(
       categoriaDaPergunta: 'Orientação Temporal',
-      categoriaEspecial: 'ano atual',
+      categoriaEspecial: 'resposta comum',
       enunciado: 'Em que ano estamos?',
       questao: PerguntasResponsivas(
         textoDaPergunta: 'Em que ano estamos?',
@@ -106,7 +106,7 @@ class Perguntas {
     PerguntasEscritas(
         categoriaDaPergunta: 'Orientação Espacial',
         enunciado: 'Que lugar é este? (hospital, casa etc)',
-        categoriaEspecial: 'localidade',
+        categoriaEspecial: 'resposta comum',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Que lugar é este? (hospital, casa etc)',
           textSize: .18,
@@ -115,7 +115,7 @@ class Perguntas {
         respostaDaQuestao: 'hospital'),
     PerguntasEscritas(
         categoriaDaPergunta: 'Orientação Espacial',
-        categoriaEspecial: 'local específico',
+        categoriaEspecial: 'resposta comum',
         enunciado:
             'Em que local específico estamos? (consultório, dormitório, sala etc)',
         questao: PerguntasResponsivas(
@@ -128,6 +128,7 @@ class Perguntas {
 
     PerguntasEscritas(
         categoriaDaPergunta: 'Orientação Espacial',
+        categoriaEspecial: "resposta comum",
         enunciado: 'Em que cidade estamos?',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Em que cidade estamos?',
@@ -138,6 +139,7 @@ class Perguntas {
     // santa clara county
     PerguntasEscritas(
         categoriaDaPergunta: 'Orientação Espacial',
+        categoriaEspecial: "resposta comum",
         enunciado: 'Em que estado estamos?',
         questao: PerguntasResponsivas(
           textoDaPergunta: 'Em que estado estamos?',
@@ -196,27 +198,32 @@ class Perguntas {
     // 3 ATENÇÃO E CALCULO
     PerguntasEscritas(
       categoriaDaPergunta: 'Atenção e Cálculo',
+      categoriaEspecial: "resposta comum",
       enunciado: enunciadoDoCalculo(),
       questao: realizarCalculo(),
       respostaDaQuestao: calc.toString(),
     ),
     PerguntasEscritas(
         categoriaDaPergunta: 'Atenção e Cálculo',
+        categoriaEspecial: "resposta comum",
         enunciado: enunciadoDoCalculo(),
         questao: realizarCalculo(),
         respostaDaQuestao: calc.toString()),
     PerguntasEscritas(
         categoriaDaPergunta: 'Atenção e Cálculo',
+        categoriaEspecial: "resposta comum",
         enunciado: enunciadoDoCalculo(),
         questao: realizarCalculo(),
         respostaDaQuestao: calc.toString()),
     PerguntasEscritas(
         categoriaDaPergunta: 'Atenção e Cálculo',
+        categoriaEspecial: "resposta comum",
         enunciado: enunciadoDoCalculo(),
         questao: realizarCalculo(),
         respostaDaQuestao: calc.toString()),
     PerguntasEscritas(
         categoriaDaPergunta: 'Atenção e Cálculo',
+        categoriaEspecial: "resposta comum",
         enunciado: enunciadoDoCalculo(),
         questao: realizarCalculo(),
         respostaDaQuestao: calc.toString()),
