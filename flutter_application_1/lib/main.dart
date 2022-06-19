@@ -22,7 +22,7 @@ void main() {
           bodyText2: TextStyle(color: Colors.black),
         ),
       ),
-      home: MEEM(),
+      home: SelecionarExame(),
     ),
   );
 }

@@ -53,32 +53,37 @@ class ConfirmationCard extends StatelessWidget {
                 texto: cartText, textSize: screenHeight * tamanhoDoTexto),
             //
             //
-            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Container(
-                height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
-                width: size.width * larguraDoBotao,
-                child: BotaoPadrao(
-                  altura:
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  height:
                       _maxValue(value: screenHeight * alturaDoBotao, max: 65),
-                  corDoBotao: buttonNoColor,
-                  botaoTexto: 'Não',
-                  isWhite: true,
-                  aoPressionar: onPressNo,
+                  width: size.width * larguraDoBotao,
+                  child: BotaoPadrao(
+                    altura:
+                        _maxValue(value: screenHeight * alturaDoBotao, max: 65),
+                    corDoBotao: buttonNoColor,
+                    botaoTexto: 'Não',
+                    isWhite: true,
+                    aoPressionar: onPressNo,
+                  ),
                 ),
-              ),
-              Container(
-                height: _maxValue(value: screenHeight * alturaDoBotao, max: 65),
-                width: size.width * larguraDoBotao,
-                child: BotaoPadrao(
-                  aoPressionar: onPressYes,
-                  corDoBotao: buttonYesColor,
-                  botaoTexto: 'Sim',
-                  isWhite: true,
-                  altura:
+                Container(
+                  height:
                       _maxValue(value: screenHeight * alturaDoBotao, max: 65),
+                  width: size.width * larguraDoBotao,
+                  child: BotaoPadrao(
+                    aoPressionar: onPressYes,
+                    corDoBotao: buttonYesColor,
+                    botaoTexto: 'Sim',
+                    isWhite: true,
+                    altura:
+                        _maxValue(value: screenHeight * alturaDoBotao, max: 65),
+                  ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ],
         ),
       ),

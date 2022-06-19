@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/meem_functions/calc_result.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/MEEM/meem_widgets/confirmation_card.dart';
 import 'package:flutter_application_1/Testes%20Cognitivos/selecionar_exame.dart';
 import 'package:flutter_application_1/Widgets/choice_list.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_application_1/Widgets/botaopadrao.dart';
 import 'package:flutter_application_1/Widgets/constantes.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-
 import 'lista_de_respostas.dart';
 
 // Variáveis onde serão armazenados a hora e o minuto
@@ -212,142 +210,6 @@ void resetarExame() {
 //
 //
 //
-//
-// Função onde é realizado o cálculo do resultado
-void calcularResultado() {
-  marcadorDePontos = 0;
-  novoPaciente.pontos_meem = 0;
-  List<dynamic> listaReserva = [];
-  //
-  // começando pelo primeiro elemento da lista de respostas do examinador
-  for (int count = 0; count < listaDeRespostasDoExaminador.length; count++) {
-    listaReserva = [];
-    //
-    // A primeira condição é se a resposta for do tipo condicaoExaminador, ou seja, respostas de sim ou não
-    if (listaDeRespostasDoExaminador[count] is condicaoExaminador) {
-      if (listaDeRespostasDoExaminador[count] == condicaoExaminador.sim) {
-        // se a resposta for sim, o paciente marca um ponto
-        novoPaciente.atribuirPontosMeem();
-        marcadorDePontos++;
-      }
-      //
-      //
-      // A outra condição é se a resposta é uma lista
-    } else if (listaDeRespostasDoExaminador[count] is List) {
-      listaReserva = listaDeRespostasDoExaminador[count];
-      //
-      // Aqui verifica-se se a lista é composta por elementos do tipo condicaoExaminador
-      // no caso, é a pergunta das 3 ações
-      if (listaReserva[0] is condicaoExaminador) {
-        for (int n = 0; n < listaReserva.length; n++) {
-          // para cada elemento da lista que é sim, o paciente marca um ponto
-          if (listaReserva[n] == condicaoExaminador.sim) {
-            novoPaciente.atribuirPontosMeem();
-            marcadorDePontos++;
-          }
-        }
-        //
-        //
-        // A próxima condição é se a lista tem 4 elementos
-        // essa é referente a pergunta da hora.
-        // só serão utilizados os dois primeiros elementos da lista, que são a hora e o minuto
-        // a lista tem 4 elementos apenas para entrar nessa condição
-      }
-
-      /*
-      else if (listaReserva.length == 4) {
-        //
-        // a primeira condição é se a hora e minuto informados são exatamente iguais aos certos
-        // se sim, o paciente marca um ponto
-        if (listaReserva[1] != null &&
-            listaReserva[0] == hora &&
-            listaReserva[1] == minuto) {
-          novoPaciente.atribuirPontosMeem();
-          marcadorDePontos++;
-        }
-        //
-        //
-        //
-        // Como essa pergunta tem uma tolerância de 5 minutos para mais e para menos,
-        // ainda tem mais duas condições.
-        // A primeira delas é caso o minuto informado seja maior que o minuto atual
-        else if (listaReserva[1] != null &&
-            int.parse(listaReserva[1]) > int.parse(minuto)) {
-          //
-          // se for até no máximo 5 minutos a mais que o minuto atual, ainda é considerado certo
-          // e o paciente marca um ponto
-          if ((int.parse(listaReserva[1]) <= int.parse(minuto) + 5 &&
-                  int.parse(minuto) <= 54) &&
-              listaReserva[0] == hora) {
-            novoPaciente.atribuirPontosMeem();
-            marcadorDePontos++;
-          }
-          //
-          //
-          // A outra condição é se o minuto informado for menor que o minuto atual
-        } else if (listaReserva[1] != null &&
-            int.parse(listaReserva[1]) < int.parse(minuto)) {
-          //
-          // se ele for no máximo até 5 minutos menor, o paciente marca um ponto
-          if (int.parse(listaReserva[1]) >= int.parse(minuto) - 5 &&
-              listaReserva[0] == hora) {
-            novoPaciente.atribuirPontosMeem();
-            marcadorDePontos++;
-          }
-        }
-
-        //
-        //
-        //
-        // A próxima condição é se a lista tiver 3 elementos
-        // Nesse caso é das perguntas onde se tem que decorar as 3 palavras
-      } */
-      // hora
-      //
-
-      else if (listaReserva.length == 3) {
-        for (int n = 0; n < listaReserva.length; n++) {
-          //
-          // para cada item da lista que existe na lista respostasDeMemoria, o paciente marca um ponto
-          if (respostasDeMemoria.contains(listaReserva[n])) {
-            novoPaciente.atribuirPontosMeem();
-            marcadorDePontos++;
-          }
-        }
-        //
-        //
-        // Por fim, a ultima condição se for uma lista é se tiver apenas 2 elementos
-        // Nesse caso é da pergunta de nomear os objetos
-      } else {
-        for (int n = 0; n < listaReserva.length; n++) {
-          //
-          // para cada item da lista que existe na lista respostasDeObjetos, o paciente marca um ponto
-          if (respostasDeObjetos.contains(listaReserva[n])) {
-            novoPaciente.atribuirPontosMeem();
-            marcadorDePontos++;
-          }
-        }
-      }
-      //
-      //
-      // E por fim, se a resposta não for uma lista,
-      // quer dizer que é apenas um TextField normal
-      // então ele apenas verifica se essa string existe na lista de strings
-    } else {
-      if (respostasString.contains(listaDeRespostasDoExaminador[count])) {
-        novoPaciente.atribuirPontosMeem();
-        marcadorDePontos++;
-      }
-    }
-    //
-    //
-
-  }
-}
-
-//
-//
-//
 // Função que atribui a cor tema do exame
 // cada vez que a categoria atual muda, a cor é atualizada
 void atribuirCores() {
@@ -449,7 +311,8 @@ class _MEEMState extends State<MEEM> {
                   ),
                 );
                 setState(() {
-                  calcularResultado();
+                  marcadorDePontos = calcResult(newPatient: novoPaciente);
+                  //calcularResultado();
                 });
               },
               width: 120,
@@ -1224,85 +1087,29 @@ class _MEEMState extends State<MEEM> {
                 if (resposta == 'Frase do Paciente')
                   Column(
                     children: [
-                      //  SizedBox(
-                      //    height:
-                      //       screenHeight *
-                      //         .07),
-                      Container(
-                        height: _maxValue(value: screenHeight * .35, max: 190),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(11.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              textoDeConfirmacao(
-                                  categoriaEspecial == 'repetir frase'
-                                      ? 'O paciente conseguiu repetir a frase corretamente?'
-                                      : 'O paciente conseguiu escrever uma frase corretamente?',
-                                  screenHeight * tamanhoDoTexto),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: _maxValue(
-                                        value: screenHeight * alturaDoBotao,
-                                        max: 65),
-                                    width: size.width * larguraDoBotao,
-                                    child: BotaoPadrao(
-                                      altura: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                      corDoBotao: respostaDoExaminador ==
-                                              condicaoExaminador.nao
-                                          ? kCorAtiva
-                                          : kPurpleColor,
-                                      botaoTexto: 'Não',
-                                      isWhite: true,
-                                      aoPressionar: () {
-                                        setState(() {
-                                          respostaDoExaminador =
-                                              condicaoExaminador.nao;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: _maxValue(
-                                        value: screenHeight * alturaDoBotao,
-                                        max: 65),
-                                    width: size.width * larguraDoBotao,
-                                    child: BotaoPadrao(
-                                      aoPressionar: () {
-                                        setState(() {
-                                          respostaDoExaminador =
-                                              condicaoExaminador.sim;
-                                        });
-                                      },
-                                      corDoBotao: respostaDoExaminador ==
-                                              condicaoExaminador.sim
-                                          ? kCorAtiva
-                                          : kPurpleColor,
-                                      botaoTexto: 'Sim',
-                                      isWhite: true,
-                                      altura: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                    ),
-                                  ),
-                                  //
-                                  //
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                      ConfirmationCard(
+                        cartText: categoriaEspecial == 'repetir frase'
+                            ? 'O paciente conseguiu repetir a frase corretamente?'
+                            : 'O paciente conseguiu escrever uma frase corretamente?',
+                        buttonYesColor:
+                            respostaDoExaminador == condicaoExaminador.sim
+                                ? kCorAtiva
+                                : kPurpleColor,
+                        buttonNoColor:
+                            respostaDoExaminador == condicaoExaminador.nao
+                                ? kCorAtiva
+                                : kPurpleColor,
+                        onPressNo: () {
+                          setState(() {
+                            respostaDoExaminador = condicaoExaminador.nao;
+                          });
+                        },
+                        onPressYes: () {
+                          setState(() {
+                            respostaDoExaminador = condicaoExaminador.sim;
+                          });
+                        },
                       ),
-
                       SizedBox(height: screenHeight * .05),
                       //
 
@@ -1331,267 +1138,79 @@ class _MEEMState extends State<MEEM> {
                       //  height:
                       //     screenHeight *
                       //        .1),
-                      Container(
-                        height: _maxValue(value: screenHeight * .35, max: 190),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(11.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Primeira ação',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  color: kCorDoTema,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              textoDeConfirmacao(textoDasTresAcoes[0],
-                                  screenHeight * tamanhoDoTexto),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: _maxValue(
-                                        value: screenHeight * alturaDoBotao,
-                                        max: 100),
-                                    width: size.width * larguraDoBotao,
-                                    child: BotaoPadrao(
-                                      altura: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                      corDoBotao: respostaDoExaminador ==
-                                              condicaoExaminador.nao
-                                          ? kCorAtiva
-                                          : kPurpleColor,
-                                      botaoTexto: 'Não',
-                                      isWhite: true,
-                                      aoPressionar: () {
-                                        setState(() {
-                                          respostaDoExaminador =
-                                              condicaoExaminador.nao;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: _maxValue(
-                                        value: screenHeight * alturaDoBotao,
-                                        max: 65),
-                                    width: size.width * larguraDoBotao,
-                                    child: BotaoPadrao(
-                                      aoPressionar: () {
-                                        setState(() {
-                                          respostaDoExaminador =
-                                              condicaoExaminador.sim;
-                                        });
-                                      },
-                                      corDoBotao: respostaDoExaminador ==
-                                              condicaoExaminador.sim
-                                          ? kCorAtiva
-                                          : kPurpleColor,
-                                      botaoTexto: 'Sim',
-                                      isWhite: true,
-                                      altura: screenHeight * alturaDoBotao,
-                                    ),
-                                  ),
-                                  //
-                                  //
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                      ConfirmationCard(
+                        cartText: textoDasTresAcoes[0],
+                        buttonYesColor:
+                            respostaDoExaminador == condicaoExaminador.sim
+                                ? kCorAtiva
+                                : kPurpleColor,
+                        buttonNoColor:
+                            respostaDoExaminador == condicaoExaminador.nao
+                                ? kCorAtiva
+                                : kPurpleColor,
+                        onPressNo: () {
+                          setState(() {
+                            respostaDoExaminador = condicaoExaminador.nao;
+                          });
+                        },
+                        onPressYes: () {
+                          setState(() {
+                            respostaDoExaminador = condicaoExaminador.sim;
+                          });
+                        },
                       ),
-                      // SizedBox(
-                      //     height:
-                      //        screenHeight *
-                      //           .03),
-                      ///    SizedBox(
-                      //     height:
-                      //        screenHeight *
-                      //             .1,
-                      //   ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
-                        child: Container(
-                          height:
-                              _maxValue(value: screenHeight * .35, max: 190),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(11.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Segunda ação',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    color: kCorDoTema,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                textoDeConfirmacao(textoDasTresAcoes[1],
-                                    screenHeight * tamanhoDoTexto),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-                                      height: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                      width: size.width * larguraDoBotao,
-                                      child: BotaoPadrao(
-                                        altura: _maxValue(
-                                            value: screenHeight * alturaDoBotao,
-                                            max: 100),
-                                        corDoBotao:
-                                            segundaRespostaDoExaminador ==
-                                                    condicaoExaminador.nao
-                                                ? kCorAtiva
-                                                : kPurpleColor,
-                                        botaoTexto: 'Não',
-                                        isWhite: true,
-                                        aoPressionar: () {
-                                          setState(() {
-                                            segundaRespostaDoExaminador =
-                                                condicaoExaminador.nao;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      height: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                      width: size.width * larguraDoBotao,
-                                      child: BotaoPadrao(
-                                        aoPressionar: () {
-                                          setState(() {
-                                            segundaRespostaDoExaminador =
-                                                condicaoExaminador.sim;
-                                          });
-                                        },
-                                        corDoBotao:
-                                            segundaRespostaDoExaminador ==
-                                                    condicaoExaminador.sim
-                                                ? kCorAtiva
-                                                : kPurpleColor,
-                                        botaoTexto: 'Sim',
-                                        isWhite: true,
-                                        altura: screenHeight * alturaDoBotao,
-                                      ),
-                                    ),
-                                    //
-                                    //
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                        child: ConfirmationCard(
+                          cartText: textoDasTresAcoes[1],
+                          buttonYesColor: segundaRespostaDoExaminador ==
+                                  condicaoExaminador.sim
+                              ? kCorAtiva
+                              : kPurpleColor,
+                          buttonNoColor: segundaRespostaDoExaminador ==
+                                  condicaoExaminador.nao
+                              ? kCorAtiva
+                              : kPurpleColor,
+                          onPressNo: () {
+                            setState(() {
+                              segundaRespostaDoExaminador =
+                                  condicaoExaminador.nao;
+                            });
+                          },
+                          onPressYes: () {
+                            setState(() {
+                              segundaRespostaDoExaminador =
+                                  condicaoExaminador.sim;
+                            });
+                          },
                         ),
                       ),
-
-                      ///
-                      /////
-                      ///
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
-                        child: Container(
-                          height:
-                              _maxValue(value: screenHeight * .35, max: 190),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(11.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Terceira ação',
-                                  style: TextStyle(
-                                    fontSize: 23,
-                                    color: kCorDoTema,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                textoDeConfirmacao(textoDasTresAcoes[2],
-                                    screenHeight * tamanhoDoTexto),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-                                      height: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                      width: size.width * larguraDoBotao,
-                                      child: BotaoPadrao(
-                                        altura: _maxValue(
-                                            value: screenHeight * alturaDoBotao,
-                                            max: 100),
-                                        corDoBotao:
-                                            terceiraRespostaDoExaminador ==
-                                                    condicaoExaminador.nao
-                                                ? kCorAtiva
-                                                : kPurpleColor,
-                                        botaoTexto: 'Não',
-                                        isWhite: true,
-                                        aoPressionar: () {
-                                          setState(() {
-                                            terceiraRespostaDoExaminador =
-                                                condicaoExaminador.nao;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      height: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 65),
-                                      width: size.width * larguraDoBotao,
-                                      child: BotaoPadrao(
-                                        aoPressionar: () {
-                                          setState(() {
-                                            terceiraRespostaDoExaminador =
-                                                condicaoExaminador.sim;
-                                          });
-                                        },
-                                        corDoBotao:
-                                            terceiraRespostaDoExaminador ==
-                                                    condicaoExaminador.sim
-                                                ? kCorAtiva
-                                                : kPurpleColor,
-                                        botaoTexto: 'Sim',
-                                        isWhite: true,
-                                        altura: screenHeight * alturaDoBotao,
-                                      ),
-                                    ),
-                                    //
-                                    //
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                        child: ConfirmationCard(
+                          cartText: textoDasTresAcoes[2],
+                          buttonYesColor: terceiraRespostaDoExaminador ==
+                                  condicaoExaminador.sim
+                              ? kCorAtiva
+                              : kPurpleColor,
+                          buttonNoColor: terceiraRespostaDoExaminador ==
+                                  condicaoExaminador.nao
+                              ? kCorAtiva
+                              : kPurpleColor,
+                          onPressNo: () {
+                            setState(() {
+                              terceiraRespostaDoExaminador =
+                                  condicaoExaminador.nao;
+                            });
+                          },
+                          onPressYes: () {
+                            setState(() {
+                              terceiraRespostaDoExaminador =
+                                  condicaoExaminador.sim;
+                            });
+                          },
                         ),
                       ),
-
-                      ///
-                      ///
-
                       SizedBox(
                         height: screenHeight * .1,
                       ),
@@ -1713,75 +1332,27 @@ class _MEEMState extends State<MEEM> {
                           SizedBox(height: screenHeight * .2),
                         ],
                       ),
-                      Container(
-                        height: _maxValue(value: screenHeight * .35, max: 190),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(11.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              textoDeConfirmacao(
-                                  'O paciente conseguiu informar a hora corretamente?',
-                                  screenHeight * tamanhoDoTexto),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: _maxValue(
-                                        value: screenHeight * alturaDoBotao,
-                                        max: 65),
-                                    width: size.width * larguraDoBotao,
-                                    child: BotaoPadrao(
-                                      altura: _maxValue(
-                                          value: screenHeight * alturaDoBotao,
-                                          max: 100),
-                                      corDoBotao: respostaDoExaminador ==
-                                              condicaoExaminador.nao
-                                          ? kCorAtiva
-                                          : kPurpleColor,
-                                      botaoTexto: 'Não',
-                                      isWhite: true,
-                                      aoPressionar: () {
-                                        setState(() {
-                                          respostaDoExaminador =
-                                              condicaoExaminador.nao;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: _maxValue(
-                                        value: screenHeight * alturaDoBotao,
-                                        max: 65),
-                                    width: size.width * larguraDoBotao,
-                                    child: BotaoPadrao(
-                                      aoPressionar: () {
-                                        setState(() {
-                                          respostaDoExaminador =
-                                              condicaoExaminador.sim;
-                                        });
-                                      },
-                                      corDoBotao: respostaDoExaminador ==
-                                              condicaoExaminador.sim
-                                          ? kCorAtiva
-                                          : kPurpleColor,
-                                      botaoTexto: 'Sim',
-                                      isWhite: true,
-                                      altura: screenHeight * alturaDoBotao,
-                                    ),
-                                  ),
-                                  //
-                                  //
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                      ConfirmationCard(
+                        cartText:
+                            'O paciente conseguiu informar a hora corretamente?',
+                        buttonYesColor:
+                            respostaDoExaminador == condicaoExaminador.sim
+                                ? kCorAtiva
+                                : kPurpleColor,
+                        buttonNoColor:
+                            respostaDoExaminador == condicaoExaminador.nao
+                                ? kCorAtiva
+                                : kPurpleColor,
+                        onPressNo: () {
+                          setState(() {
+                            respostaDoExaminador = condicaoExaminador.nao;
+                          });
+                        },
+                        onPressYes: () {
+                          setState(() {
+                            respostaDoExaminador = condicaoExaminador.sim;
+                          });
+                        },
                       ),
                       SizedBox(height: screenHeight * .05),
                     ],
@@ -1964,29 +1535,7 @@ class _MEEMState extends State<MEEM> {
       textAlign: TextAlign.center,
     );
   }
-
-  //
-//
 }
-
-//
-Widget containerActions({
-  required String texto,
-  required int numeroDaAcao,
-  // required Row linha,
-}) {
-  return Container(
-    height: screenHeight * .35,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(25),
-      border: Border.all(color: Colors.black, width: 3),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(11.0),
-    ),
-  );
-}
-//
 
 // Widget da caixa de texto onde é feita a resposta
 Widget respostaMeem(
@@ -2076,134 +1625,3 @@ Widget containerDasRespostas(Widget filhoContainer, double altura) {
     child: filhoContainer,
   );
 }
-
-//////////////////////////////////////////
-/////////////////////////////////////////
-///
-Widget botaoDeSimOuNao(
-    {required Function aoApertar, required String texto, required Color cor}) {
-  return Container(
-    width: 120,
-    child: BotaoPadrao(
-      corDoBotao: cor,
-      botaoTexto: texto,
-      aoPressionar: () {
-        aoApertar;
-      },
-    ),
-  );
-}
-
-///
-///
-///
-///
-///
-
-// Pagina onde o paciente irá fazer o desenho da última pergunta do MEEM
-class PaginaDoDesenho extends StatefulWidget {
-  const PaginaDoDesenho({Key? key}) : super(key: key);
-
-  @override
-  _PaginaDoDesenhoState createState() => _PaginaDoDesenhoState();
-}
-
-class _PaginaDoDesenhoState extends State<PaginaDoDesenho> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-    );
-  }
-}
-
-/*
-
-Container(
-                                                height: _maxValue(
-                                                    value: screenHeight * .35,
-                                                    max: 180),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      11.0),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      textoDeConfirmacao(
-                                                          'O paciente conseguiu informar a hora corretamente?',
-                                                          screenHeight *
-                                                              tamanhoDoTexto),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                        children: [
-                                                          Container(
-                                                            height: _maxValue(
-                                                                value: screenHeight *
-                                                                    alturaDoBotao,
-                                                                max: 100),
-                                                            width: size.width *
-                                                                larguraDoBotao,
-                                                            child: BotaoPadrao(
-                                                              altura: _maxValue(
-                                                                  value: screenHeight *
-                                                                      alturaDoBotao,
-                                                                  max: 100),
-                                                              corDoBotao: respostaDoExaminador ==
-                                                                      condicaoExaminador
-                                                                          .nao
-                                                                  ? kCorAtiva
-                                                                  : kPurpleColor,
-                                                              botaoTexto: 'Não',
-                                                              isWhite: true,
-                                                              aoPressionar: () {
-                                                                setState(() {
-                                                                  respostaDoExaminador =
-                                                                      condicaoExaminador
-                                                                          .nao;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            height: screenHeight *
-                                                                alturaDoBotao,
-                                                            width: size.width *
-                                                                larguraDoBotao,
-                                                            child: BotaoPadrao(
-                                                              aoPressionar: () {
-                                                                setState(() {
-                                                                  respostaDoExaminador =
-                                                                      condicaoExaminador
-                                                                          .sim;
-                                                                });
-                                                              },
-                                                              corDoBotao: respostaDoExaminador ==
-                                                                      condicaoExaminador
-                                                                          .sim
-                                                                  ? kCorAtiva
-                                                                  : kPurpleColor,
-                                                              botaoTexto: 'Sim',
-                                                              isWhite: true,
-                                                              altura: screenHeight *
-                                                                  alturaDoBotao,
-                                                            ),
-                                                          ),
-                                                          //
-                                                          //
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-
-*/

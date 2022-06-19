@@ -6,7 +6,6 @@ import 'package:flutter_application_1/Widgets/botaopadrao.dart';
 import 'package:flutter_application_1/Widgets/constantes.dart';
 import 'meem.dart';
 import 'dados_do_paciente.dart';
-import 'get_position.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'perguntas.dart';
 
@@ -145,7 +144,8 @@ class _PaginaDeResultadosState extends State<PaginaDeResultados> {
                       SizedBox(height: alturaSizedBox),
                       TextoResponsivo(
                         //texto: 'sdndsjovndjvnjdvnjvv',
-                        texto: 'Pontuação no MEEM: ${marcadorDePontos} pontos',
+                        texto:
+                            'Pontuação no MEEM: ${novoPaciente.pontos_meem} pontos',
                         total_area: alturaContainerResultado,
                         percent_area: .05,
                         text_color: kCorInativa,
