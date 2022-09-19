@@ -1134,10 +1134,6 @@ class _MEEMState extends State<MEEM> {
                 if (categoriaEspecial == "3 acões")
                   Column(
                     children: [
-                      // SizedBox(
-                      //  height:
-                      //     screenHeight *
-                      //        .1),
                       ConfirmationCard(
                         cartText: textoDasTresAcoes[0],
                         buttonYesColor:
@@ -1224,7 +1220,6 @@ class _MEEMState extends State<MEEM> {
                     child: categoriaEspecial == 'dia da semana'
                         ? Column(
                             children: [
-                              // SizedBox(height: screenHeight * .2),
                               ChoiceList(
                                 listItems: weekDays,
                                 initialValue: weekDays.first,
@@ -1236,7 +1231,6 @@ class _MEEMState extends State<MEEM> {
                           )
                         : Column(
                             children: [
-                              // SizedBox(height: screenHeight * .27),
                               ChoiceList(
                                 listItems: months,
                                 initialValue: months.first,
@@ -1252,7 +1246,6 @@ class _MEEMState extends State<MEEM> {
                 if (categoriaEspecial == "dia do mes")
                   Column(
                     children: [
-                      // SizedBox(height: screenHeight * .05),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
@@ -1280,7 +1273,6 @@ class _MEEMState extends State<MEEM> {
                 if (categoriaEspecial == "hora")
                   Column(
                     children: [
-                      // SizedBox(height: screenHeight * .07),
                       Text(
                         'Digite a hora informada pelo paciente',
                         style: TextStyle(
@@ -1364,7 +1356,6 @@ class _MEEMState extends State<MEEM> {
                     //
                     // Então ele retorna apenas um textformfield para a resposta
                     children: [
-                      //SizedBox(height: screenHeight * .3),
                       respostaMeem(
                         label: 'Resposta do Paciente',
                         controlador: controladorDaBarraDeTexto,
